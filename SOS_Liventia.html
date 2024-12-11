@@ -1,0 +1,1630 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css">
+        <link rel="stylesheet" href="css/L.Control.Layers.Tree.css">
+        <link rel="stylesheet" href="css/qgis2web.css">
+        <link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        </style>
+        <title>Valor de mercado Liventia | $1k pesos | SOS</title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script>
+        <script src="js/L.Control.Layers.Tree.min.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="data/SOSZarzamora_1.js"></script>
+        <script src="data/SOSTomaterojo_2.js"></script>
+        <script src="data/SOSPimiento_3.js"></script>
+        <script src="data/SOSPepino_4.js"></script>
+        <script src="data/SOSPapa_5.js"></script>
+        <script src="data/SOSNuez_6.js"></script>
+        <script src="data/SOSCaf_7.js"></script>
+        <script src="data/SOSArndano_8.js"></script>
+        <script src="data/SOSAlgondn_9.js"></script>
+        <script src="data/SOSAguacate_10.js"></script>
+        <script src="data/SOSAgave_11.js"></script>
+        <script src="data/Edos_12.js"></script>
+        <script>
+        var highlightLayer;
+        function highlightFeature(e) {
+            highlightLayer = e.target;
+
+            if (e.target.feature.geometry.type === 'LineString' || e.target.feature.geometry.type === 'MultiLineString') {
+              highlightLayer.setStyle({
+                color: '#ffff00',
+              });
+            } else {
+              highlightLayer.setStyle({
+                fillColor: '#ffff00',
+                fillOpacity: 1
+              });
+            }
+        }
+        var map = L.map('map', {
+            zoomControl:false, maxZoom:28, minZoom:1
+        }).fitBounds([[7.49004971893125,-117.7275317056332],[36.69862224750025,-84.48900282583475]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        // remove popup's row if "visible-with-data"
+        function removeEmptyRowsFromPopupContent(content, feature) {
+         var tempDiv = document.createElement('div');
+         tempDiv.innerHTML = content;
+         var rows = tempDiv.querySelectorAll('tr');
+         for (var i = 0; i < rows.length; i++) {
+             var td = rows[i].querySelector('td.visible-with-data');
+             var key = td ? td.id : '';
+             if (td && td.classList.contains('visible-with-data') && feature.properties[key] == null) {
+                 rows[i].parentNode.removeChild(rows[i]);
+             }
+         }
+         return tempDiv.innerHTML;
+        }
+        // add class to format popup if it contains media
+		function addClassToPopupIfMedia(content, popup) {
+			var tempDiv = document.createElement('div');
+			tempDiv.innerHTML = content;
+			if (tempDiv.querySelector('td img')) {
+				popup._contentNode.classList.add('media');
+					// Delay to force the redraw
+					setTimeout(function() {
+						popup.update();
+					}, 10);
+			} else {
+				popup._contentNode.classList.remove('media');
+			}
+		}
+        var title = new L.Control({'position':'topright'});
+        title.onAdd = function (map) {
+            this._div = L.DomUtil.create('div', 'info');
+            this.update();
+            return this._div;
+        };
+        title.update = function () {
+            this._div.innerHTML = '<h2>Valor de mercado Liventia | $1k pesos | SOS</h2>';
+        };
+        title.addTo(map);
+        var zoomControl = L.control.zoom({
+            position: 'topleft'
+        }).addTo(map);
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+        }
+        map.createPane('pane_googleearth_0');
+        map.getPane('pane_googleearth_0').style.zIndex = 400;
+        var layer_googleearth_0 = L.tileLayer('http://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}', {
+            pane: 'pane_googleearth_0',
+            opacity: 1.0,
+            attribution: '',
+            minZoom: 1,
+            maxZoom: 28,
+            minNativeZoom: 0,
+            maxNativeZoom: 18
+        });
+        layer_googleearth_0;
+        map.addLayer(layer_googleearth_0);
+        function pop_SOSZarzamora_1(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (var i in e.target._eventParents) {
+                        if (typeof e.target._eventParents[i].resetStyle === 'function') {
+                            e.target._eventParents[i].resetStyle(e.target);
+                        }
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Municipio</th>\
+                        <td>' + (feature.properties['NOMGEO'] !== null ? autolinker.link(feature.properties['NOMGEO'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Zarzamora - ha</th>\
+                        <td>' + (feature.properties['b_S_Zarz'] !== null ? autolinker.link(feature.properties['b_S_Zarz'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Zarzamora - SOS $</th>\
+                        <td>' + (feature.properties['b_SOS_Zarz'] !== null ? autolinker.link(feature.properties['b_SOS_Zarz'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            var content = removeEmptyRowsFromPopupContent(popupContent, feature);
+			layer.on('popupopen', function(e) {
+				addClassToPopupIfMedia(content, e.popup);
+			});
+			layer.bindPopup(content, { maxHeight: 400 });
+        }
+
+        function style_SOSZarzamora_1_0(feature) {
+            if (feature.properties['b_SOS_Zarz'] >= 0.000000 && feature.properties['b_SOS_Zarz'] <= 10000.000000 ) {
+                return {
+                pane: 'pane_SOSZarzamora_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(247,251,255,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_SOS_Zarz'] >= 10000.000000 && feature.properties['b_SOS_Zarz'] <= 100000.000000 ) {
+                return {
+                pane: 'pane_SOSZarzamora_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(200,220,240,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_SOS_Zarz'] >= 100000.000000 && feature.properties['b_SOS_Zarz'] <= 1000000.000000 ) {
+                return {
+                pane: 'pane_SOSZarzamora_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(115,178,216,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_SOS_Zarz'] >= 1000000.000000 && feature.properties['b_SOS_Zarz'] <= 10000000.000000 ) {
+                return {
+                pane: 'pane_SOSZarzamora_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(41,121,185,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_SOS_Zarz'] >= 10000000.000000 && feature.properties['b_SOS_Zarz'] <= 13000000.000000 ) {
+                return {
+                pane: 'pane_SOSZarzamora_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(8,48,107,1.0)',
+                interactive: true,
+            }
+            }
+        }
+        map.createPane('pane_SOSZarzamora_1');
+        map.getPane('pane_SOSZarzamora_1').style.zIndex = 401;
+        map.getPane('pane_SOSZarzamora_1').style['mix-blend-mode'] = 'normal';
+        var layer_SOSZarzamora_1 = new L.geoJson(json_SOSZarzamora_1, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_SOSZarzamora_1',
+            layerName: 'layer_SOSZarzamora_1',
+            pane: 'pane_SOSZarzamora_1',
+            onEachFeature: pop_SOSZarzamora_1,
+            style: style_SOSZarzamora_1_0,
+        });
+        bounds_group.addLayer(layer_SOSZarzamora_1);
+        map.addLayer(layer_SOSZarzamora_1);
+        function pop_SOSTomaterojo_2(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (var i in e.target._eventParents) {
+                        if (typeof e.target._eventParents[i].resetStyle === 'function') {
+                            e.target._eventParents[i].resetStyle(e.target);
+                        }
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Municipio</th>\
+                        <td>' + (feature.properties['NOMGEO'] !== null ? autolinker.link(feature.properties['NOMGEO'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Tomate rojo - ha</th>\
+                        <td>' + (feature.properties['b_S_Toma'] !== null ? autolinker.link(feature.properties['b_S_Toma'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Tomate rojo - SOS $</th>\
+                        <td>' + (feature.properties['b_SOS_Toma'] !== null ? autolinker.link(feature.properties['b_SOS_Toma'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            var content = removeEmptyRowsFromPopupContent(popupContent, feature);
+			layer.on('popupopen', function(e) {
+				addClassToPopupIfMedia(content, e.popup);
+			});
+			layer.bindPopup(content, { maxHeight: 400 });
+        }
+
+        function style_SOSTomaterojo_2_0(feature) {
+            if (feature.properties['b_SOS_Toma'] >= 0.000000 && feature.properties['b_SOS_Toma'] <= 10000.000000 ) {
+                return {
+                pane: 'pane_SOSTomaterojo_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(247,251,255,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_SOS_Toma'] >= 10000.000000 && feature.properties['b_SOS_Toma'] <= 100000.000000 ) {
+                return {
+                pane: 'pane_SOSTomaterojo_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(200,220,240,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_SOS_Toma'] >= 100000.000000 && feature.properties['b_SOS_Toma'] <= 500000.000000 ) {
+                return {
+                pane: 'pane_SOSTomaterojo_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(115,178,216,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_SOS_Toma'] >= 500000.000000 && feature.properties['b_SOS_Toma'] <= 1000000.000000 ) {
+                return {
+                pane: 'pane_SOSTomaterojo_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(41,121,185,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_SOS_Toma'] >= 1000000.000000 && feature.properties['b_SOS_Toma'] <= 3500000.000000 ) {
+                return {
+                pane: 'pane_SOSTomaterojo_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(8,48,107,1.0)',
+                interactive: true,
+            }
+            }
+        }
+        map.createPane('pane_SOSTomaterojo_2');
+        map.getPane('pane_SOSTomaterojo_2').style.zIndex = 402;
+        map.getPane('pane_SOSTomaterojo_2').style['mix-blend-mode'] = 'normal';
+        var layer_SOSTomaterojo_2 = new L.geoJson(json_SOSTomaterojo_2, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_SOSTomaterojo_2',
+            layerName: 'layer_SOSTomaterojo_2',
+            pane: 'pane_SOSTomaterojo_2',
+            onEachFeature: pop_SOSTomaterojo_2,
+            style: style_SOSTomaterojo_2_0,
+        });
+        bounds_group.addLayer(layer_SOSTomaterojo_2);
+        map.addLayer(layer_SOSTomaterojo_2);
+        function pop_SOSPimiento_3(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (var i in e.target._eventParents) {
+                        if (typeof e.target._eventParents[i].resetStyle === 'function') {
+                            e.target._eventParents[i].resetStyle(e.target);
+                        }
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Municipio</th>\
+                        <td>' + (feature.properties['NOMGEO'] !== null ? autolinker.link(feature.properties['NOMGEO'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Pimiento - ha</th>\
+                        <td>' + (feature.properties['b_S_Pimi'] !== null ? autolinker.link(feature.properties['b_S_Pimi'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Pimiento - SOS $</th>\
+                        <td>' + (feature.properties['b_SOS_Pimi'] !== null ? autolinker.link(feature.properties['b_SOS_Pimi'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            var content = removeEmptyRowsFromPopupContent(popupContent, feature);
+			layer.on('popupopen', function(e) {
+				addClassToPopupIfMedia(content, e.popup);
+			});
+			layer.bindPopup(content, { maxHeight: 400 });
+        }
+
+        function style_SOSPimiento_3_0(feature) {
+            if (feature.properties['b_SOS_Pimi'] >= 0.000000 && feature.properties['b_SOS_Pimi'] <= 10000.000000 ) {
+                return {
+                pane: 'pane_SOSPimiento_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(247,251,255,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_SOS_Pimi'] >= 10000.000000 && feature.properties['b_SOS_Pimi'] <= 500000.000000 ) {
+                return {
+                pane: 'pane_SOSPimiento_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(200,220,240,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_SOS_Pimi'] >= 500000.000000 && feature.properties['b_SOS_Pimi'] <= 1000000.000000 ) {
+                return {
+                pane: 'pane_SOSPimiento_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(115,178,216,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_SOS_Pimi'] >= 1000000.000000 && feature.properties['b_SOS_Pimi'] <= 10000000.000000 ) {
+                return {
+                pane: 'pane_SOSPimiento_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(41,121,185,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_SOS_Pimi'] >= 10000000.000000 && feature.properties['b_SOS_Pimi'] <= 20000000.000000 ) {
+                return {
+                pane: 'pane_SOSPimiento_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(8,48,107,1.0)',
+                interactive: true,
+            }
+            }
+        }
+        map.createPane('pane_SOSPimiento_3');
+        map.getPane('pane_SOSPimiento_3').style.zIndex = 403;
+        map.getPane('pane_SOSPimiento_3').style['mix-blend-mode'] = 'normal';
+        var layer_SOSPimiento_3 = new L.geoJson(json_SOSPimiento_3, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_SOSPimiento_3',
+            layerName: 'layer_SOSPimiento_3',
+            pane: 'pane_SOSPimiento_3',
+            onEachFeature: pop_SOSPimiento_3,
+            style: style_SOSPimiento_3_0,
+        });
+        bounds_group.addLayer(layer_SOSPimiento_3);
+        map.addLayer(layer_SOSPimiento_3);
+        function pop_SOSPepino_4(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (var i in e.target._eventParents) {
+                        if (typeof e.target._eventParents[i].resetStyle === 'function') {
+                            e.target._eventParents[i].resetStyle(e.target);
+                        }
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Municipio</th>\
+                        <td>' + (feature.properties['NOMGEO'] !== null ? autolinker.link(feature.properties['NOMGEO'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Pepino - ha</th>\
+                        <td>' + (feature.properties['b_S_Pepi'] !== null ? autolinker.link(feature.properties['b_S_Pepi'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Pepino - SOS $</th>\
+                        <td>' + (feature.properties['b_SOS_Pepi'] !== null ? autolinker.link(feature.properties['b_SOS_Pepi'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            var content = removeEmptyRowsFromPopupContent(popupContent, feature);
+			layer.on('popupopen', function(e) {
+				addClassToPopupIfMedia(content, e.popup);
+			});
+			layer.bindPopup(content, { maxHeight: 400 });
+        }
+
+        function style_SOSPepino_4_0(feature) {
+            if (feature.properties['b_SOS_Pepi'] >= 0.000000 && feature.properties['b_SOS_Pepi'] <= 10000.000000 ) {
+                return {
+                pane: 'pane_SOSPepino_4',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(247,251,255,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_SOS_Pepi'] >= 10000.000000 && feature.properties['b_SOS_Pepi'] <= 100000.000000 ) {
+                return {
+                pane: 'pane_SOSPepino_4',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(200,220,240,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_SOS_Pepi'] >= 100000.000000 && feature.properties['b_SOS_Pepi'] <= 500000.000000 ) {
+                return {
+                pane: 'pane_SOSPepino_4',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(115,178,216,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_SOS_Pepi'] >= 500000.000000 && feature.properties['b_SOS_Pepi'] <= 1000000.000000 ) {
+                return {
+                pane: 'pane_SOSPepino_4',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(41,121,185,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_SOS_Pepi'] >= 1000000.000000 && feature.properties['b_SOS_Pepi'] <= 1300000.000000 ) {
+                return {
+                pane: 'pane_SOSPepino_4',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(8,48,107,1.0)',
+                interactive: true,
+            }
+            }
+        }
+        map.createPane('pane_SOSPepino_4');
+        map.getPane('pane_SOSPepino_4').style.zIndex = 404;
+        map.getPane('pane_SOSPepino_4').style['mix-blend-mode'] = 'normal';
+        var layer_SOSPepino_4 = new L.geoJson(json_SOSPepino_4, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_SOSPepino_4',
+            layerName: 'layer_SOSPepino_4',
+            pane: 'pane_SOSPepino_4',
+            onEachFeature: pop_SOSPepino_4,
+            style: style_SOSPepino_4_0,
+        });
+        bounds_group.addLayer(layer_SOSPepino_4);
+        map.addLayer(layer_SOSPepino_4);
+        function pop_SOSPapa_5(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (var i in e.target._eventParents) {
+                        if (typeof e.target._eventParents[i].resetStyle === 'function') {
+                            e.target._eventParents[i].resetStyle(e.target);
+                        }
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Municipio</th>\
+                        <td>' + (feature.properties['NOMGEO'] !== null ? autolinker.link(feature.properties['NOMGEO'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Papa - ha</th>\
+                        <td>' + (feature.properties['b_S_Papa'] !== null ? autolinker.link(feature.properties['b_S_Papa'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Papa - SOS $</th>\
+                        <td>' + (feature.properties['b_SOS_Papa'] !== null ? autolinker.link(feature.properties['b_SOS_Papa'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            var content = removeEmptyRowsFromPopupContent(popupContent, feature);
+			layer.on('popupopen', function(e) {
+				addClassToPopupIfMedia(content, e.popup);
+			});
+			layer.bindPopup(content, { maxHeight: 400 });
+        }
+
+        function style_SOSPapa_5_0(feature) {
+            if (feature.properties['b_SOS_Papa'] >= 0.000000 && feature.properties['b_SOS_Papa'] <= 10000.000000 ) {
+                return {
+                pane: 'pane_SOSPapa_5',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(247,251,255,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_SOS_Papa'] >= 10000.000000 && feature.properties['b_SOS_Papa'] <= 100000.000000 ) {
+                return {
+                pane: 'pane_SOSPapa_5',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(200,220,240,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_SOS_Papa'] >= 100000.000000 && feature.properties['b_SOS_Papa'] <= 1000000.000000 ) {
+                return {
+                pane: 'pane_SOSPapa_5',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(115,178,216,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_SOS_Papa'] >= 1000000.000000 && feature.properties['b_SOS_Papa'] <= 10000000.000000 ) {
+                return {
+                pane: 'pane_SOSPapa_5',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(41,121,185,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_SOS_Papa'] >= 10000000.000000 && feature.properties['b_SOS_Papa'] <= 23000000.000000 ) {
+                return {
+                pane: 'pane_SOSPapa_5',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(8,48,107,1.0)',
+                interactive: true,
+            }
+            }
+        }
+        map.createPane('pane_SOSPapa_5');
+        map.getPane('pane_SOSPapa_5').style.zIndex = 405;
+        map.getPane('pane_SOSPapa_5').style['mix-blend-mode'] = 'normal';
+        var layer_SOSPapa_5 = new L.geoJson(json_SOSPapa_5, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_SOSPapa_5',
+            layerName: 'layer_SOSPapa_5',
+            pane: 'pane_SOSPapa_5',
+            onEachFeature: pop_SOSPapa_5,
+            style: style_SOSPapa_5_0,
+        });
+        bounds_group.addLayer(layer_SOSPapa_5);
+        map.addLayer(layer_SOSPapa_5);
+        function pop_SOSNuez_6(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (var i in e.target._eventParents) {
+                        if (typeof e.target._eventParents[i].resetStyle === 'function') {
+                            e.target._eventParents[i].resetStyle(e.target);
+                        }
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Municipio</th>\
+                        <td>' + (feature.properties['NOMGEO'] !== null ? autolinker.link(feature.properties['NOMGEO'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Nuez - ha</th>\
+                        <td>' + (feature.properties['b_S_Nuez'] !== null ? autolinker.link(feature.properties['b_S_Nuez'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Nuez - SOS $</th>\
+                        <td>' + (feature.properties['b_SOS_Nuez'] !== null ? autolinker.link(feature.properties['b_SOS_Nuez'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            var content = removeEmptyRowsFromPopupContent(popupContent, feature);
+			layer.on('popupopen', function(e) {
+				addClassToPopupIfMedia(content, e.popup);
+			});
+			layer.bindPopup(content, { maxHeight: 400 });
+        }
+
+        function style_SOSNuez_6_0(feature) {
+            if (feature.properties['b_SOS_Nuez'] >= 0.000000 && feature.properties['b_SOS_Nuez'] <= 100000.000000 ) {
+                return {
+                pane: 'pane_SOSNuez_6',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(247,251,255,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_SOS_Nuez'] >= 100000.000000 && feature.properties['b_SOS_Nuez'] <= 500000.000000 ) {
+                return {
+                pane: 'pane_SOSNuez_6',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(200,220,240,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_SOS_Nuez'] >= 500000.000000 && feature.properties['b_SOS_Nuez'] <= 1000000.000000 ) {
+                return {
+                pane: 'pane_SOSNuez_6',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(115,178,216,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_SOS_Nuez'] >= 1000000.000000 && feature.properties['b_SOS_Nuez'] <= 10000000.000000 ) {
+                return {
+                pane: 'pane_SOSNuez_6',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(41,121,185,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_SOS_Nuez'] >= 10000000.000000 && feature.properties['b_SOS_Nuez'] <= 27000000.000000 ) {
+                return {
+                pane: 'pane_SOSNuez_6',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(8,48,107,1.0)',
+                interactive: true,
+            }
+            }
+        }
+        map.createPane('pane_SOSNuez_6');
+        map.getPane('pane_SOSNuez_6').style.zIndex = 406;
+        map.getPane('pane_SOSNuez_6').style['mix-blend-mode'] = 'normal';
+        var layer_SOSNuez_6 = new L.geoJson(json_SOSNuez_6, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_SOSNuez_6',
+            layerName: 'layer_SOSNuez_6',
+            pane: 'pane_SOSNuez_6',
+            onEachFeature: pop_SOSNuez_6,
+            style: style_SOSNuez_6_0,
+        });
+        bounds_group.addLayer(layer_SOSNuez_6);
+        map.addLayer(layer_SOSNuez_6);
+        function pop_SOSCaf_7(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (var i in e.target._eventParents) {
+                        if (typeof e.target._eventParents[i].resetStyle === 'function') {
+                            e.target._eventParents[i].resetStyle(e.target);
+                        }
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Municipio</th>\
+                        <td>' + (feature.properties['NOMGEO'] !== null ? autolinker.link(feature.properties['NOMGEO'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Café - ha</th>\
+                        <td>' + (feature.properties['b_S_Cafe'] !== null ? autolinker.link(feature.properties['b_S_Cafe'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Café - SOS $</th>\
+                        <td>' + (feature.properties['b_SOS_Cafe'] !== null ? autolinker.link(feature.properties['b_SOS_Cafe'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            var content = removeEmptyRowsFromPopupContent(popupContent, feature);
+			layer.on('popupopen', function(e) {
+				addClassToPopupIfMedia(content, e.popup);
+			});
+			layer.bindPopup(content, { maxHeight: 400 });
+        }
+
+        function style_SOSCaf_7_0(feature) {
+            if (feature.properties['b_SOS_Cafe'] >= 0.000000 && feature.properties['b_SOS_Cafe'] <= 10000.000000 ) {
+                return {
+                pane: 'pane_SOSCaf_7',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(247,251,255,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_SOS_Cafe'] >= 10000.000000 && feature.properties['b_SOS_Cafe'] <= 50000.000000 ) {
+                return {
+                pane: 'pane_SOSCaf_7',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(200,220,240,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_SOS_Cafe'] >= 50000.000000 && feature.properties['b_SOS_Cafe'] <= 100000.000000 ) {
+                return {
+                pane: 'pane_SOSCaf_7',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(115,178,216,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_SOS_Cafe'] >= 100000.000000 && feature.properties['b_SOS_Cafe'] <= 400000.000000 ) {
+                return {
+                pane: 'pane_SOSCaf_7',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(41,121,185,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_SOS_Cafe'] >= 400000.000000 && feature.properties['b_SOS_Cafe'] <= 500000.000000 ) {
+                return {
+                pane: 'pane_SOSCaf_7',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(8,48,107,1.0)',
+                interactive: true,
+            }
+            }
+        }
+        map.createPane('pane_SOSCaf_7');
+        map.getPane('pane_SOSCaf_7').style.zIndex = 407;
+        map.getPane('pane_SOSCaf_7').style['mix-blend-mode'] = 'normal';
+        var layer_SOSCaf_7 = new L.geoJson(json_SOSCaf_7, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_SOSCaf_7',
+            layerName: 'layer_SOSCaf_7',
+            pane: 'pane_SOSCaf_7',
+            onEachFeature: pop_SOSCaf_7,
+            style: style_SOSCaf_7_0,
+        });
+        bounds_group.addLayer(layer_SOSCaf_7);
+        map.addLayer(layer_SOSCaf_7);
+        function pop_SOSArndano_8(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (var i in e.target._eventParents) {
+                        if (typeof e.target._eventParents[i].resetStyle === 'function') {
+                            e.target._eventParents[i].resetStyle(e.target);
+                        }
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Municipio</th>\
+                        <td>' + (feature.properties['NOMGEO'] !== null ? autolinker.link(feature.properties['NOMGEO'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Arándano - ha</th>\
+                        <td>' + (feature.properties['b_S_Aran'] !== null ? autolinker.link(feature.properties['b_S_Aran'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Arándano - SOS $</th>\
+                        <td>' + (feature.properties['b_SOS_Aran'] !== null ? autolinker.link(feature.properties['b_SOS_Aran'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            var content = removeEmptyRowsFromPopupContent(popupContent, feature);
+			layer.on('popupopen', function(e) {
+				addClassToPopupIfMedia(content, e.popup);
+			});
+			layer.bindPopup(content, { maxHeight: 400 });
+        }
+
+        function style_SOSArndano_8_0(feature) {
+            if (feature.properties['b_SOS_Aran'] >= 0.000000 && feature.properties['b_SOS_Aran'] <= 10000.000000 ) {
+                return {
+                pane: 'pane_SOSArndano_8',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(247,251,255,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_SOS_Aran'] >= 10000.000000 && feature.properties['b_SOS_Aran'] <= 100000.000000 ) {
+                return {
+                pane: 'pane_SOSArndano_8',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(200,220,240,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_SOS_Aran'] >= 100000.000000 && feature.properties['b_SOS_Aran'] <= 500000.000000 ) {
+                return {
+                pane: 'pane_SOSArndano_8',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(115,178,216,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_SOS_Aran'] >= 500000.000000 && feature.properties['b_SOS_Aran'] <= 1000000.000000 ) {
+                return {
+                pane: 'pane_SOSArndano_8',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(41,121,185,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_SOS_Aran'] >= 1000000.000000 && feature.properties['b_SOS_Aran'] <= 5000000.000000 ) {
+                return {
+                pane: 'pane_SOSArndano_8',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(8,48,107,1.0)',
+                interactive: true,
+            }
+            }
+        }
+        map.createPane('pane_SOSArndano_8');
+        map.getPane('pane_SOSArndano_8').style.zIndex = 408;
+        map.getPane('pane_SOSArndano_8').style['mix-blend-mode'] = 'normal';
+        var layer_SOSArndano_8 = new L.geoJson(json_SOSArndano_8, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_SOSArndano_8',
+            layerName: 'layer_SOSArndano_8',
+            pane: 'pane_SOSArndano_8',
+            onEachFeature: pop_SOSArndano_8,
+            style: style_SOSArndano_8_0,
+        });
+        bounds_group.addLayer(layer_SOSArndano_8);
+        map.addLayer(layer_SOSArndano_8);
+        function pop_SOSAlgondn_9(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (var i in e.target._eventParents) {
+                        if (typeof e.target._eventParents[i].resetStyle === 'function') {
+                            e.target._eventParents[i].resetStyle(e.target);
+                        }
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Municipio</th>\
+                        <td>' + (feature.properties['NOMGEO'] !== null ? autolinker.link(feature.properties['NOMGEO'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Algodón - ha</th>\
+                        <td>' + (feature.properties['b_S_Algo'] !== null ? autolinker.link(feature.properties['b_S_Algo'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Algodón - SOS $</th>\
+                        <td>' + (feature.properties['b_SOS_Algo'] !== null ? autolinker.link(feature.properties['b_SOS_Algo'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            var content = removeEmptyRowsFromPopupContent(popupContent, feature);
+			layer.on('popupopen', function(e) {
+				addClassToPopupIfMedia(content, e.popup);
+			});
+			layer.bindPopup(content, { maxHeight: 400 });
+        }
+
+        function style_SOSAlgondn_9_0(feature) {
+            if (feature.properties['b_SOS_Algo'] >= 0.000000 && feature.properties['b_SOS_Algo'] <= 100000.000000 ) {
+                return {
+                pane: 'pane_SOSAlgondn_9',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(247,251,255,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_SOS_Algo'] >= 100000.000000 && feature.properties['b_SOS_Algo'] <= 500000.000000 ) {
+                return {
+                pane: 'pane_SOSAlgondn_9',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(200,220,240,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_SOS_Algo'] >= 500000.000000 && feature.properties['b_SOS_Algo'] <= 1000000.000000 ) {
+                return {
+                pane: 'pane_SOSAlgondn_9',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(115,178,216,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_SOS_Algo'] >= 1000000.000000 && feature.properties['b_SOS_Algo'] <= 10000000.000000 ) {
+                return {
+                pane: 'pane_SOSAlgondn_9',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(41,121,185,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_SOS_Algo'] >= 10000000.000000 && feature.properties['b_SOS_Algo'] <= 31000000.000000 ) {
+                return {
+                pane: 'pane_SOSAlgondn_9',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(8,48,107,1.0)',
+                interactive: true,
+            }
+            }
+        }
+        map.createPane('pane_SOSAlgondn_9');
+        map.getPane('pane_SOSAlgondn_9').style.zIndex = 409;
+        map.getPane('pane_SOSAlgondn_9').style['mix-blend-mode'] = 'normal';
+        var layer_SOSAlgondn_9 = new L.geoJson(json_SOSAlgondn_9, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_SOSAlgondn_9',
+            layerName: 'layer_SOSAlgondn_9',
+            pane: 'pane_SOSAlgondn_9',
+            onEachFeature: pop_SOSAlgondn_9,
+            style: style_SOSAlgondn_9_0,
+        });
+        bounds_group.addLayer(layer_SOSAlgondn_9);
+        map.addLayer(layer_SOSAlgondn_9);
+        function pop_SOSAguacate_10(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (var i in e.target._eventParents) {
+                        if (typeof e.target._eventParents[i].resetStyle === 'function') {
+                            e.target._eventParents[i].resetStyle(e.target);
+                        }
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Municipio</th>\
+                        <td>' + (feature.properties['NOMGEO'] !== null ? autolinker.link(feature.properties['NOMGEO'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Aguacate - ha</th>\
+                        <td>' + (feature.properties['b_S_Agua'] !== null ? autolinker.link(feature.properties['b_S_Agua'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Aguacate - SOS $</th>\
+                        <td>' + (feature.properties['b_SOS_Agua'] !== null ? autolinker.link(feature.properties['b_SOS_Agua'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            var content = removeEmptyRowsFromPopupContent(popupContent, feature);
+			layer.on('popupopen', function(e) {
+				addClassToPopupIfMedia(content, e.popup);
+			});
+			layer.bindPopup(content, { maxHeight: 400 });
+        }
+
+        function style_SOSAguacate_10_0(feature) {
+            if (feature.properties['b_SOS_Agua'] >= 0.000000 && feature.properties['b_SOS_Agua'] <= 100000.000000 ) {
+                return {
+                pane: 'pane_SOSAguacate_10',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(247,251,255,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_SOS_Agua'] >= 100000.000000 && feature.properties['b_SOS_Agua'] <= 500000.000000 ) {
+                return {
+                pane: 'pane_SOSAguacate_10',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(200,220,240,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_SOS_Agua'] >= 500000.000000 && feature.properties['b_SOS_Agua'] <= 1000000.000000 ) {
+                return {
+                pane: 'pane_SOSAguacate_10',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(115,178,216,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_SOS_Agua'] >= 1000000.000000 && feature.properties['b_SOS_Agua'] <= 10000000.000000 ) {
+                return {
+                pane: 'pane_SOSAguacate_10',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(41,121,185,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_SOS_Agua'] >= 10000000.000000 && feature.properties['b_SOS_Agua'] <= 25000000.000000 ) {
+                return {
+                pane: 'pane_SOSAguacate_10',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(8,48,107,1.0)',
+                interactive: true,
+            }
+            }
+        }
+        map.createPane('pane_SOSAguacate_10');
+        map.getPane('pane_SOSAguacate_10').style.zIndex = 410;
+        map.getPane('pane_SOSAguacate_10').style['mix-blend-mode'] = 'normal';
+        var layer_SOSAguacate_10 = new L.geoJson(json_SOSAguacate_10, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_SOSAguacate_10',
+            layerName: 'layer_SOSAguacate_10',
+            pane: 'pane_SOSAguacate_10',
+            onEachFeature: pop_SOSAguacate_10,
+            style: style_SOSAguacate_10_0,
+        });
+        bounds_group.addLayer(layer_SOSAguacate_10);
+        map.addLayer(layer_SOSAguacate_10);
+        function pop_SOSAgave_11(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (var i in e.target._eventParents) {
+                        if (typeof e.target._eventParents[i].resetStyle === 'function') {
+                            e.target._eventParents[i].resetStyle(e.target);
+                        }
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Municipio</th>\
+                        <td>' + (feature.properties['NOMGEO'] !== null ? autolinker.link(feature.properties['NOMGEO'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Agave - ha</th>\
+                        <td>' + (feature.properties['b_S_Agav'] !== null ? autolinker.link(feature.properties['b_S_Agav'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Agave - SOS $</th>\
+                        <td>' + (feature.properties['b_SOS_Agav'] !== null ? autolinker.link(feature.properties['b_SOS_Agav'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            var content = removeEmptyRowsFromPopupContent(popupContent, feature);
+			layer.on('popupopen', function(e) {
+				addClassToPopupIfMedia(content, e.popup);
+			});
+			layer.bindPopup(content, { maxHeight: 400 });
+        }
+
+        function style_SOSAgave_11_0(feature) {
+            if (feature.properties['b_SOS_Agav'] >= 0.000000 && feature.properties['b_SOS_Agav'] <= 1000.000000 ) {
+                return {
+                pane: 'pane_SOSAgave_11',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(247,251,255,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_SOS_Agav'] >= 1000.000000 && feature.properties['b_SOS_Agav'] <= 10000.000000 ) {
+                return {
+                pane: 'pane_SOSAgave_11',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(200,220,240,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_SOS_Agav'] >= 10000.000000 && feature.properties['b_SOS_Agav'] <= 50000.000000 ) {
+                return {
+                pane: 'pane_SOSAgave_11',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(115,178,216,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_SOS_Agav'] >= 50000.000000 && feature.properties['b_SOS_Agav'] <= 100000.000000 ) {
+                return {
+                pane: 'pane_SOSAgave_11',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(41,121,185,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_SOS_Agav'] >= 100000.000000 && feature.properties['b_SOS_Agav'] <= 500000.000000 ) {
+                return {
+                pane: 'pane_SOSAgave_11',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(8,48,107,1.0)',
+                interactive: true,
+            }
+            }
+        }
+        map.createPane('pane_SOSAgave_11');
+        map.getPane('pane_SOSAgave_11').style.zIndex = 411;
+        map.getPane('pane_SOSAgave_11').style['mix-blend-mode'] = 'normal';
+        var layer_SOSAgave_11 = new L.geoJson(json_SOSAgave_11, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_SOSAgave_11',
+            layerName: 'layer_SOSAgave_11',
+            pane: 'pane_SOSAgave_11',
+            onEachFeature: pop_SOSAgave_11,
+            style: style_SOSAgave_11_0,
+        });
+        bounds_group.addLayer(layer_SOSAgave_11);
+        map.addLayer(layer_SOSAgave_11);
+        function pop_Edos_12(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (var i in e.target._eventParents) {
+                        if (typeof e.target._eventParents[i].resetStyle === 'function') {
+                            e.target._eventParents[i].resetStyle(e.target);
+                        }
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['CVE_ENT'] !== null ? autolinker.link(feature.properties['CVE_ENT'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['NOM_ENT'] !== null ? autolinker.link(feature.properties['NOM_ENT'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['CAPITAL'] !== null ? autolinker.link(feature.properties['CAPITAL'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['AREA'] !== null ? autolinker.link(feature.properties['AREA'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['PERIMETER'] !== null ? autolinker.link(feature.properties['PERIMETER'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['COV_'] !== null ? autolinker.link(feature.properties['COV_'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['COV_ID'] !== null ? autolinker.link(feature.properties['COV_ID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['OID'] !== null ? autolinker.link(feature.properties['OID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            var content = removeEmptyRowsFromPopupContent(popupContent, feature);
+			layer.on('popupopen', function(e) {
+				addClassToPopupIfMedia(content, e.popup);
+			});
+			layer.bindPopup(content, { maxHeight: 400 });
+        }
+
+        function style_Edos_12_0() {
+            return {
+                pane: 'pane_Edos_12',
+                opacity: 1,
+                color: 'rgba(152,152,152,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(243,166,178,0.0)',
+                interactive: false,
+            }
+        }
+        map.createPane('pane_Edos_12');
+        map.getPane('pane_Edos_12').style.zIndex = 412;
+        map.getPane('pane_Edos_12').style['mix-blend-mode'] = 'normal';
+        var layer_Edos_12 = new L.geoJson(json_Edos_12, {
+            attribution: '',
+            interactive: false,
+            dataVar: 'json_Edos_12',
+            layerName: 'layer_Edos_12',
+            pane: 'pane_Edos_12',
+            onEachFeature: pop_Edos_12,
+            style: style_Edos_12_0,
+        });
+        bounds_group.addLayer(layer_Edos_12);
+        map.addLayer(layer_Edos_12);
+        var overlaysTree = [
+            {label: '<img src="legend/Edos_12.png" /> Edos', layer: layer_Edos_12},
+            {label: 'SOS Agave<br /><table><tr><td style="text-align: center;"><img src="legend/SOSAgave_11_010000.png" /></td><td>0 - 1000</td></tr><tr><td style="text-align: center;"><img src="legend/SOSAgave_11_1000100001.png" /></td><td>1000 - 10000</td></tr><tr><td style="text-align: center;"><img src="legend/SOSAgave_11_10000500002.png" /></td><td>10000 - 50000</td></tr><tr><td style="text-align: center;"><img src="legend/SOSAgave_11_500001000003.png" /></td><td>50000 - 100000</td></tr><tr><td style="text-align: center;"><img src="legend/SOSAgave_11_1000005000004.png" /></td><td>100000 - 500000</td></tr></table>', layer: layer_SOSAgave_11},
+            {label: 'SOS Aguacate<br /><table><tr><td style="text-align: center;"><img src="legend/SOSAguacate_10_01000000.png" /></td><td>0 - 100000</td></tr><tr><td style="text-align: center;"><img src="legend/SOSAguacate_10_1000005000001.png" /></td><td>100000 - 500000</td></tr><tr><td style="text-align: center;"><img src="legend/SOSAguacate_10_50000010000002.png" /></td><td>500000 - 1000000</td></tr><tr><td style="text-align: center;"><img src="legend/SOSAguacate_10_1000000100000003.png" /></td><td>1000000 - 10000000</td></tr><tr><td style="text-align: center;"><img src="legend/SOSAguacate_10_10000000250000004.png" /></td><td>10000000 - 25000000</td></tr></table>', layer: layer_SOSAguacate_10},
+            {label: 'SOS Algondón<br /><table><tr><td style="text-align: center;"><img src="legend/SOSAlgondn_9_01000000.png" /></td><td>0 - 100000</td></tr><tr><td style="text-align: center;"><img src="legend/SOSAlgondn_9_1000005000001.png" /></td><td>100000 - 500000</td></tr><tr><td style="text-align: center;"><img src="legend/SOSAlgondn_9_50000010000002.png" /></td><td>500000 - 1000000</td></tr><tr><td style="text-align: center;"><img src="legend/SOSAlgondn_9_1000000100000003.png" /></td><td>1000000 - 10000000</td></tr><tr><td style="text-align: center;"><img src="legend/SOSAlgondn_9_10000000310000004.png" /></td><td>10000000 - 31000000</td></tr></table>', layer: layer_SOSAlgondn_9},
+            {label: 'SOS Arándano<br /><table><tr><td style="text-align: center;"><img src="legend/SOSArndano_8_0100000.png" /></td><td>0 - 10000</td></tr><tr><td style="text-align: center;"><img src="legend/SOSArndano_8_100001000001.png" /></td><td>10000 - 100000</td></tr><tr><td style="text-align: center;"><img src="legend/SOSArndano_8_1000005000002.png" /></td><td>100000 - 500000</td></tr><tr><td style="text-align: center;"><img src="legend/SOSArndano_8_50000010000003.png" /></td><td>500000 - 1000000</td></tr><tr><td style="text-align: center;"><img src="legend/SOSArndano_8_100000050000004.png" /></td><td>1000000 - 5000000</td></tr></table>', layer: layer_SOSArndano_8},
+            {label: 'SOS Café<br /><table><tr><td style="text-align: center;"><img src="legend/SOSCaf_7_0100000.png" /></td><td>0 - 10000</td></tr><tr><td style="text-align: center;"><img src="legend/SOSCaf_7_10000500001.png" /></td><td>10000 - 50000</td></tr><tr><td style="text-align: center;"><img src="legend/SOSCaf_7_500001000002.png" /></td><td>50000 - 100000</td></tr><tr><td style="text-align: center;"><img src="legend/SOSCaf_7_1000004000003.png" /></td><td>100000 - 400000</td></tr><tr><td style="text-align: center;"><img src="legend/SOSCaf_7_4000005000004.png" /></td><td>400000 - 500000</td></tr></table>', layer: layer_SOSCaf_7},
+            {label: 'SOS Nuez<br /><table><tr><td style="text-align: center;"><img src="legend/SOSNuez_6_01000000.png" /></td><td>0 - 100000</td></tr><tr><td style="text-align: center;"><img src="legend/SOSNuez_6_1000005000001.png" /></td><td>100000 - 500000</td></tr><tr><td style="text-align: center;"><img src="legend/SOSNuez_6_50000010000002.png" /></td><td>500000 - 1000000</td></tr><tr><td style="text-align: center;"><img src="legend/SOSNuez_6_1000000100000003.png" /></td><td>1000000 - 10000000</td></tr><tr><td style="text-align: center;"><img src="legend/SOSNuez_6_10000000270000004.png" /></td><td>10000000 - 27000000</td></tr></table>', layer: layer_SOSNuez_6},
+            {label: 'SOS Papa<br /><table><tr><td style="text-align: center;"><img src="legend/SOSPapa_5_0100000.png" /></td><td>0 - 10000</td></tr><tr><td style="text-align: center;"><img src="legend/SOSPapa_5_100001000001.png" /></td><td>10000 - 100000</td></tr><tr><td style="text-align: center;"><img src="legend/SOSPapa_5_10000010000002.png" /></td><td>100000 - 1000000</td></tr><tr><td style="text-align: center;"><img src="legend/SOSPapa_5_1000000100000003.png" /></td><td>1000000 - 10000000</td></tr><tr><td style="text-align: center;"><img src="legend/SOSPapa_5_10000000230000004.png" /></td><td>10000000 - 23000000</td></tr></table>', layer: layer_SOSPapa_5},
+            {label: 'SOS Pepino<br /><table><tr><td style="text-align: center;"><img src="legend/SOSPepino_4_0100000.png" /></td><td>0 - 10000</td></tr><tr><td style="text-align: center;"><img src="legend/SOSPepino_4_100001000001.png" /></td><td>10000 - 100000</td></tr><tr><td style="text-align: center;"><img src="legend/SOSPepino_4_1000005000002.png" /></td><td>100000 - 500000</td></tr><tr><td style="text-align: center;"><img src="legend/SOSPepino_4_50000010000003.png" /></td><td>500000 - 1000000</td></tr><tr><td style="text-align: center;"><img src="legend/SOSPepino_4_100000013000004.png" /></td><td>1000000 - 1300000</td></tr></table>', layer: layer_SOSPepino_4},
+            {label: 'SOS Pimiento<br /><table><tr><td style="text-align: center;"><img src="legend/SOSPimiento_3_0100000.png" /></td><td>0 - 10000</td></tr><tr><td style="text-align: center;"><img src="legend/SOSPimiento_3_100005000001.png" /></td><td>10000 - 500000</td></tr><tr><td style="text-align: center;"><img src="legend/SOSPimiento_3_50000010000002.png" /></td><td>500000 - 1000000</td></tr><tr><td style="text-align: center;"><img src="legend/SOSPimiento_3_1000000100000003.png" /></td><td>1000000 - 10000000</td></tr><tr><td style="text-align: center;"><img src="legend/SOSPimiento_3_10000000200000004.png" /></td><td>10000000 - 20000000</td></tr></table>', layer: layer_SOSPimiento_3},
+            {label: 'SOS Tomate rojo<br /><table><tr><td style="text-align: center;"><img src="legend/SOSTomaterojo_2_0100000.png" /></td><td>0 - 10000</td></tr><tr><td style="text-align: center;"><img src="legend/SOSTomaterojo_2_100001000001.png" /></td><td>10000 - 100000</td></tr><tr><td style="text-align: center;"><img src="legend/SOSTomaterojo_2_1000005000002.png" /></td><td>100000 - 500000</td></tr><tr><td style="text-align: center;"><img src="legend/SOSTomaterojo_2_50000010000003.png" /></td><td>500000 - 1000000</td></tr><tr><td style="text-align: center;"><img src="legend/SOSTomaterojo_2_100000035000004.png" /></td><td>1000000 - 3500000</td></tr></table>', layer: layer_SOSTomaterojo_2},
+            {label: 'SOS Zarzamora<br /><table><tr><td style="text-align: center;"><img src="legend/SOSZarzamora_1_0100000.png" /></td><td>0 - 10000</td></tr><tr><td style="text-align: center;"><img src="legend/SOSZarzamora_1_100001000001.png" /></td><td>10000 - 100000</td></tr><tr><td style="text-align: center;"><img src="legend/SOSZarzamora_1_10000010000002.png" /></td><td>100000 - 1000000</td></tr><tr><td style="text-align: center;"><img src="legend/SOSZarzamora_1_1000000100000003.png" /></td><td>1000000 - 10000000</td></tr><tr><td style="text-align: center;"><img src="legend/SOSZarzamora_1_10000000130000004.png" /></td><td>10000000 - 13000000</td></tr></table>', layer: layer_SOSZarzamora_1},
+            {label: "google earth", layer: layer_googleearth_0},]
+        var lay = L.control.layers.tree(null, overlaysTree,{
+            //namedToggle: true,
+            //selectorBack: false,
+            //closedSymbol: '&#8862; &#x1f5c0;',
+            //openedSymbol: '&#8863; &#x1f5c1;',
+            //collapseAll: 'Collapse all',
+            //expandAll: 'Expand all',
+            collapsed: false, 
+        });
+        lay.addTo(map);
+		document.addEventListener("DOMContentLoaded", function() {
+            // set new Layers List height which considers toggle icon
+            function newLayersListHeight() {
+                var layerScrollbarElement = document.querySelector('.leaflet-control-layers-scrollbar');
+                if (layerScrollbarElement) {
+                    var layersListElement = document.querySelector('.leaflet-control-layers-list');
+                    var originalHeight = layersListElement.style.height 
+                        || window.getComputedStyle(layersListElement).height;
+                    var newHeight = parseFloat(originalHeight) - 50;
+                    layersListElement.style.height = newHeight + 'px';
+                }
+            }
+            var isLayersListExpanded = true;
+            var controlLayersElement = document.querySelector('.leaflet-control-layers');
+            var toggleLayerControl = document.querySelector('.leaflet-control-layers-toggle');
+            // toggle Collapsed/Expanded and apply new Layers List height
+            toggleLayerControl.addEventListener('click', function() {
+                if (isLayersListExpanded) {
+                    controlLayersElement.classList.remove('leaflet-control-layers-expanded');
+                } else {
+                    controlLayersElement.classList.add('leaflet-control-layers-expanded');
+                }
+                isLayersListExpanded = !isLayersListExpanded;
+                newLayersListHeight()
+            });	
+			// apply new Layers List height if toggle layerstree
+			if (controlLayersElement) {
+				controlLayersElement.addEventListener('click', function(event) {
+					var toggleLayerHeaderPointer = event.target.closest('.leaflet-layerstree-header-pointer span');
+					if (toggleLayerHeaderPointer) {
+						newLayersListHeight();
+					}
+				});
+			}
+            // Collapsed/Expanded at Start to apply new height
+            setTimeout(function() {
+                toggleLayerControl.click();
+            }, 10);
+            setTimeout(function() {
+                toggleLayerControl.click();
+            }, 10);
+            // Collapsed touch/small screen
+            var isSmallScreen = window.innerWidth < 650;
+            if (isSmallScreen) {
+                setTimeout(function() {
+                    controlLayersElement.classList.remove('leaflet-control-layers-expanded');
+                    isLayersListExpanded = !isLayersListExpanded;
+                }, 500);
+            }  
+        });       
+        setBounds();
+        </script>
+    </body>
+</html>

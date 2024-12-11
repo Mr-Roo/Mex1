@@ -1,0 +1,1997 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css">
+        <link rel="stylesheet" href="css/L.Control.Layers.Tree.css">
+        <link rel="stylesheet" href="css/qgis2web.css">
+        <link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        </style>
+        <title>Valor de mercado Liventia | $1k pesos | Protocolo</title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script>
+        <script src="js/L.Control.Layers.Tree.min.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="data/PTZarzamora_1.js"></script>
+        <script src="data/PTUva_2.js"></script>
+        <script src="data/PTTomaterojo_3.js"></script>
+        <script src="data/PTPimiento_4.js"></script>
+        <script src="data/PTPepino_5.js"></script>
+        <script src="data/PTPapa_6.js"></script>
+        <script src="data/PTNuez_7.js"></script>
+        <script src="data/PTFresa_8.js"></script>
+        <script src="data/PTFrambuesa_9.js"></script>
+        <script src="data/PTCaf_10.js"></script>
+        <script src="data/PTArndano_11.js"></script>
+        <script src="data/PTAlgondn_12.js"></script>
+        <script src="data/PTAguacate_13.js"></script>
+        <script src="data/PTAgave_14.js"></script>
+        <script src="data/Edos_15.js"></script>
+        <script>
+        var highlightLayer;
+        function highlightFeature(e) {
+            highlightLayer = e.target;
+
+            if (e.target.feature.geometry.type === 'LineString' || e.target.feature.geometry.type === 'MultiLineString') {
+              highlightLayer.setStyle({
+                color: '#ffff00',
+              });
+            } else {
+              highlightLayer.setStyle({
+                fillColor: '#ffff00',
+                fillOpacity: 1
+              });
+            }
+        }
+        var map = L.map('map', {
+            zoomControl:false, maxZoom:28, minZoom:1
+        }).fitBounds([[10.541937216377525,-116.69420956429236],[36.057819746516046,-87.65785739261351]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        // remove popup's row if "visible-with-data"
+        function removeEmptyRowsFromPopupContent(content, feature) {
+         var tempDiv = document.createElement('div');
+         tempDiv.innerHTML = content;
+         var rows = tempDiv.querySelectorAll('tr');
+         for (var i = 0; i < rows.length; i++) {
+             var td = rows[i].querySelector('td.visible-with-data');
+             var key = td ? td.id : '';
+             if (td && td.classList.contains('visible-with-data') && feature.properties[key] == null) {
+                 rows[i].parentNode.removeChild(rows[i]);
+             }
+         }
+         return tempDiv.innerHTML;
+        }
+        // add class to format popup if it contains media
+		function addClassToPopupIfMedia(content, popup) {
+			var tempDiv = document.createElement('div');
+			tempDiv.innerHTML = content;
+			if (tempDiv.querySelector('td img')) {
+				popup._contentNode.classList.add('media');
+					// Delay to force the redraw
+					setTimeout(function() {
+						popup.update();
+					}, 10);
+			} else {
+				popup._contentNode.classList.remove('media');
+			}
+		}
+        var title = new L.Control({'position':'topright'});
+        title.onAdd = function (map) {
+            this._div = L.DomUtil.create('div', 'info');
+            this.update();
+            return this._div;
+        };
+        title.update = function () {
+            this._div.innerHTML = '<h2>Valor de mercado Liventia | $1k pesos | Protocolo</h2>';
+        };
+        title.addTo(map);
+        var zoomControl = L.control.zoom({
+            position: 'topleft'
+        }).addTo(map);
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+        }
+        map.createPane('pane_googleearth_0');
+        map.getPane('pane_googleearth_0').style.zIndex = 400;
+        var layer_googleearth_0 = L.tileLayer('http://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}', {
+            pane: 'pane_googleearth_0',
+            opacity: 1.0,
+            attribution: '',
+            minZoom: 1,
+            maxZoom: 28,
+            minNativeZoom: 0,
+            maxNativeZoom: 18
+        });
+        layer_googleearth_0;
+        map.addLayer(layer_googleearth_0);
+        function pop_PTZarzamora_1(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (var i in e.target._eventParents) {
+                        if (typeof e.target._eventParents[i].resetStyle === 'function') {
+                            e.target._eventParents[i].resetStyle(e.target);
+                        }
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Municipio</th>\
+                        <td>' + (feature.properties['NOMGEO'] !== null ? autolinker.link(feature.properties['NOMGEO'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Zarzamora - ha</th>\
+                        <td>' + (feature.properties['b_S_Zarz'] !== null ? autolinker.link(feature.properties['b_S_Zarz'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Zarzamora - PT $</th>\
+                        <td>' + (feature.properties['b_PT_Zarz'] !== null ? autolinker.link(feature.properties['b_PT_Zarz'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            var content = removeEmptyRowsFromPopupContent(popupContent, feature);
+			layer.on('popupopen', function(e) {
+				addClassToPopupIfMedia(content, e.popup);
+			});
+			layer.bindPopup(content, { maxHeight: 400 });
+        }
+
+        function style_PTZarzamora_1_0(feature) {
+            if (feature.properties['b_PT_Zarz'] >= 0.000000 && feature.properties['b_PT_Zarz'] <= 10000.000000 ) {
+                return {
+                pane: 'pane_PTZarzamora_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,245,240,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_PT_Zarz'] >= 10000.000000 && feature.properties['b_PT_Zarz'] <= 100000.000000 ) {
+                return {
+                pane: 'pane_PTZarzamora_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(252,190,165,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_PT_Zarz'] >= 100000.000000 && feature.properties['b_PT_Zarz'] <= 1000000.000000 ) {
+                return {
+                pane: 'pane_PTZarzamora_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(251,112,80,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_PT_Zarz'] >= 1000000.000000 && feature.properties['b_PT_Zarz'] <= 10000000.000000 ) {
+                return {
+                pane: 'pane_PTZarzamora_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(211,32,32,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_PT_Zarz'] >= 10000000.000000 && feature.properties['b_PT_Zarz'] <= 29000000.000000 ) {
+                return {
+                pane: 'pane_PTZarzamora_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(103,0,13,1.0)',
+                interactive: true,
+            }
+            }
+        }
+        map.createPane('pane_PTZarzamora_1');
+        map.getPane('pane_PTZarzamora_1').style.zIndex = 401;
+        map.getPane('pane_PTZarzamora_1').style['mix-blend-mode'] = 'normal';
+        var layer_PTZarzamora_1 = new L.geoJson(json_PTZarzamora_1, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_PTZarzamora_1',
+            layerName: 'layer_PTZarzamora_1',
+            pane: 'pane_PTZarzamora_1',
+            onEachFeature: pop_PTZarzamora_1,
+            style: style_PTZarzamora_1_0,
+        });
+        bounds_group.addLayer(layer_PTZarzamora_1);
+        map.addLayer(layer_PTZarzamora_1);
+        function pop_PTUva_2(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (var i in e.target._eventParents) {
+                        if (typeof e.target._eventParents[i].resetStyle === 'function') {
+                            e.target._eventParents[i].resetStyle(e.target);
+                        }
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Municipio</th>\
+                        <td>' + (feature.properties['NOMGEO'] !== null ? autolinker.link(feature.properties['NOMGEO'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Uva - ha</th>\
+                        <td>' + (feature.properties['b_S_Uva'] !== null ? autolinker.link(feature.properties['b_S_Uva'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Uva - PT $</th>\
+                        <td>' + (feature.properties['b_PT_Uva'] !== null ? autolinker.link(feature.properties['b_PT_Uva'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            var content = removeEmptyRowsFromPopupContent(popupContent, feature);
+			layer.on('popupopen', function(e) {
+				addClassToPopupIfMedia(content, e.popup);
+			});
+			layer.bindPopup(content, { maxHeight: 400 });
+        }
+
+        function style_PTUva_2_0(feature) {
+            if (feature.properties['b_PT_Uva'] >= 0.000000 && feature.properties['b_PT_Uva'] <= 10000.000000 ) {
+                return {
+                pane: 'pane_PTUva_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,245,240,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_PT_Uva'] >= 10000.000000 && feature.properties['b_PT_Uva'] <= 100000.000000 ) {
+                return {
+                pane: 'pane_PTUva_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(252,190,165,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_PT_Uva'] >= 100000.000000 && feature.properties['b_PT_Uva'] <= 1000000.000000 ) {
+                return {
+                pane: 'pane_PTUva_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(251,112,80,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_PT_Uva'] >= 1000000.000000 && feature.properties['b_PT_Uva'] <= 10000000.000000 ) {
+                return {
+                pane: 'pane_PTUva_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(211,32,32,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_PT_Uva'] >= 10000000.000000 && feature.properties['b_PT_Uva'] <= 51000000.000000 ) {
+                return {
+                pane: 'pane_PTUva_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(103,0,13,1.0)',
+                interactive: true,
+            }
+            }
+        }
+        map.createPane('pane_PTUva_2');
+        map.getPane('pane_PTUva_2').style.zIndex = 402;
+        map.getPane('pane_PTUva_2').style['mix-blend-mode'] = 'normal';
+        var layer_PTUva_2 = new L.geoJson(json_PTUva_2, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_PTUva_2',
+            layerName: 'layer_PTUva_2',
+            pane: 'pane_PTUva_2',
+            onEachFeature: pop_PTUva_2,
+            style: style_PTUva_2_0,
+        });
+        bounds_group.addLayer(layer_PTUva_2);
+        map.addLayer(layer_PTUva_2);
+        function pop_PTTomaterojo_3(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (var i in e.target._eventParents) {
+                        if (typeof e.target._eventParents[i].resetStyle === 'function') {
+                            e.target._eventParents[i].resetStyle(e.target);
+                        }
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Municipio</th>\
+                        <td>' + (feature.properties['NOMGEO'] !== null ? autolinker.link(feature.properties['NOMGEO'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Tomate rojo - ha</th>\
+                        <td>' + (feature.properties['b_S_Toma'] !== null ? autolinker.link(feature.properties['b_S_Toma'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Tomate rojo - PT $</th>\
+                        <td>' + (feature.properties['b_PT_Toma'] !== null ? autolinker.link(feature.properties['b_PT_Toma'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            var content = removeEmptyRowsFromPopupContent(popupContent, feature);
+			layer.on('popupopen', function(e) {
+				addClassToPopupIfMedia(content, e.popup);
+			});
+			layer.bindPopup(content, { maxHeight: 400 });
+        }
+
+        function style_PTTomaterojo_3_0(feature) {
+            if (feature.properties['b_PT_Toma'] >= 0.000000 && feature.properties['b_PT_Toma'] <= 100000.000000 ) {
+                return {
+                pane: 'pane_PTTomaterojo_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,245,240,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_PT_Toma'] >= 100000.000000 && feature.properties['b_PT_Toma'] <= 500000.000000 ) {
+                return {
+                pane: 'pane_PTTomaterojo_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(252,190,165,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_PT_Toma'] >= 500000.000000 && feature.properties['b_PT_Toma'] <= 1000000.000000 ) {
+                return {
+                pane: 'pane_PTTomaterojo_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(251,112,80,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_PT_Toma'] >= 1000000.000000 && feature.properties['b_PT_Toma'] <= 5000000.000000 ) {
+                return {
+                pane: 'pane_PTTomaterojo_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(211,32,32,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_PT_Toma'] >= 5000000.000000 && feature.properties['b_PT_Toma'] <= 9000000.000000 ) {
+                return {
+                pane: 'pane_PTTomaterojo_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(103,0,13,1.0)',
+                interactive: true,
+            }
+            }
+        }
+        map.createPane('pane_PTTomaterojo_3');
+        map.getPane('pane_PTTomaterojo_3').style.zIndex = 403;
+        map.getPane('pane_PTTomaterojo_3').style['mix-blend-mode'] = 'normal';
+        var layer_PTTomaterojo_3 = new L.geoJson(json_PTTomaterojo_3, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_PTTomaterojo_3',
+            layerName: 'layer_PTTomaterojo_3',
+            pane: 'pane_PTTomaterojo_3',
+            onEachFeature: pop_PTTomaterojo_3,
+            style: style_PTTomaterojo_3_0,
+        });
+        bounds_group.addLayer(layer_PTTomaterojo_3);
+        map.addLayer(layer_PTTomaterojo_3);
+        function pop_PTPimiento_4(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (var i in e.target._eventParents) {
+                        if (typeof e.target._eventParents[i].resetStyle === 'function') {
+                            e.target._eventParents[i].resetStyle(e.target);
+                        }
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Municipio</th>\
+                        <td class="visible-with-data" id="NOMGEO">' + (feature.properties['NOMGEO'] !== null ? autolinker.link(feature.properties['NOMGEO'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Pimiento - ha</th>\
+                        <td>' + (feature.properties['b_S_Pimi'] !== null ? autolinker.link(feature.properties['b_S_Pimi'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Pimiento - PT $</th>\
+                        <td>' + (feature.properties['b_PT_Pimi'] !== null ? autolinker.link(feature.properties['b_PT_Pimi'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            var content = removeEmptyRowsFromPopupContent(popupContent, feature);
+			layer.on('popupopen', function(e) {
+				addClassToPopupIfMedia(content, e.popup);
+			});
+			layer.bindPopup(content, { maxHeight: 400 });
+        }
+
+        function style_PTPimiento_4_0(feature) {
+            if (feature.properties['b_PT_Pimi'] >= 0.000000 && feature.properties['b_PT_Pimi'] <= 10000.000000 ) {
+                return {
+                pane: 'pane_PTPimiento_4',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,245,240,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_PT_Pimi'] >= 10000.000000 && feature.properties['b_PT_Pimi'] <= 100000.000000 ) {
+                return {
+                pane: 'pane_PTPimiento_4',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(252,190,165,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_PT_Pimi'] >= 100000.000000 && feature.properties['b_PT_Pimi'] <= 500000.000000 ) {
+                return {
+                pane: 'pane_PTPimiento_4',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(251,112,80,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_PT_Pimi'] >= 500000.000000 && feature.properties['b_PT_Pimi'] <= 1000000.000000 ) {
+                return {
+                pane: 'pane_PTPimiento_4',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(211,32,32,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_PT_Pimi'] >= 1000000.000000 && feature.properties['b_PT_Pimi'] <= 5000000.000000 ) {
+                return {
+                pane: 'pane_PTPimiento_4',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(103,0,13,1.0)',
+                interactive: true,
+            }
+            }
+        }
+        map.createPane('pane_PTPimiento_4');
+        map.getPane('pane_PTPimiento_4').style.zIndex = 404;
+        map.getPane('pane_PTPimiento_4').style['mix-blend-mode'] = 'normal';
+        var layer_PTPimiento_4 = new L.geoJson(json_PTPimiento_4, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_PTPimiento_4',
+            layerName: 'layer_PTPimiento_4',
+            pane: 'pane_PTPimiento_4',
+            onEachFeature: pop_PTPimiento_4,
+            style: style_PTPimiento_4_0,
+        });
+        bounds_group.addLayer(layer_PTPimiento_4);
+        map.addLayer(layer_PTPimiento_4);
+        function pop_PTPepino_5(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (var i in e.target._eventParents) {
+                        if (typeof e.target._eventParents[i].resetStyle === 'function') {
+                            e.target._eventParents[i].resetStyle(e.target);
+                        }
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Municipio</th>\
+                        <td>' + (feature.properties['NOMGEO'] !== null ? autolinker.link(feature.properties['NOMGEO'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Pepino - ha</th>\
+                        <td>' + (feature.properties['b_S_Pepi'] !== null ? autolinker.link(feature.properties['b_S_Pepi'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Pepino - PT $</th>\
+                        <td>' + (feature.properties['b_PT_Pepi'] !== null ? autolinker.link(feature.properties['b_PT_Pepi'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            var content = removeEmptyRowsFromPopupContent(popupContent, feature);
+			layer.on('popupopen', function(e) {
+				addClassToPopupIfMedia(content, e.popup);
+			});
+			layer.bindPopup(content, { maxHeight: 400 });
+        }
+
+        function style_PTPepino_5_0(feature) {
+            if (feature.properties['b_PT_Pepi'] >= 0.000000 && feature.properties['b_PT_Pepi'] <= 10000.000000 ) {
+                return {
+                pane: 'pane_PTPepino_5',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,245,240,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_PT_Pepi'] >= 10000.000000 && feature.properties['b_PT_Pepi'] <= 100000.000000 ) {
+                return {
+                pane: 'pane_PTPepino_5',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(252,190,165,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_PT_Pepi'] >= 100000.000000 && feature.properties['b_PT_Pepi'] <= 500000.000000 ) {
+                return {
+                pane: 'pane_PTPepino_5',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(251,112,80,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_PT_Pepi'] >= 500000.000000 && feature.properties['b_PT_Pepi'] <= 1000000.000000 ) {
+                return {
+                pane: 'pane_PTPepino_5',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(211,32,32,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_PT_Pepi'] >= 1000000.000000 && feature.properties['b_PT_Pepi'] <= 5000000.000000 ) {
+                return {
+                pane: 'pane_PTPepino_5',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(103,0,13,1.0)',
+                interactive: true,
+            }
+            }
+        }
+        map.createPane('pane_PTPepino_5');
+        map.getPane('pane_PTPepino_5').style.zIndex = 405;
+        map.getPane('pane_PTPepino_5').style['mix-blend-mode'] = 'normal';
+        var layer_PTPepino_5 = new L.geoJson(json_PTPepino_5, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_PTPepino_5',
+            layerName: 'layer_PTPepino_5',
+            pane: 'pane_PTPepino_5',
+            onEachFeature: pop_PTPepino_5,
+            style: style_PTPepino_5_0,
+        });
+        bounds_group.addLayer(layer_PTPepino_5);
+        map.addLayer(layer_PTPepino_5);
+        function pop_PTPapa_6(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (var i in e.target._eventParents) {
+                        if (typeof e.target._eventParents[i].resetStyle === 'function') {
+                            e.target._eventParents[i].resetStyle(e.target);
+                        }
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Municipio</th>\
+                        <td>' + (feature.properties['NOMGEO'] !== null ? autolinker.link(feature.properties['NOMGEO'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Papa - ha</th>\
+                        <td>' + (feature.properties['b_S_Papa'] !== null ? autolinker.link(feature.properties['b_S_Papa'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Papa - PT $</th>\
+                        <td>' + (feature.properties['b_PT_Papa'] !== null ? autolinker.link(feature.properties['b_PT_Papa'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            var content = removeEmptyRowsFromPopupContent(popupContent, feature);
+			layer.on('popupopen', function(e) {
+				addClassToPopupIfMedia(content, e.popup);
+			});
+			layer.bindPopup(content, { maxHeight: 400 });
+        }
+
+        function style_PTPapa_6_0(feature) {
+            if (feature.properties['b_PT_Papa'] >= 0.000000 && feature.properties['b_PT_Papa'] <= 100000.000000 ) {
+                return {
+                pane: 'pane_PTPapa_6',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,245,240,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_PT_Papa'] >= 100000.000000 && feature.properties['b_PT_Papa'] <= 1000000.000000 ) {
+                return {
+                pane: 'pane_PTPapa_6',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(252,190,165,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_PT_Papa'] >= 1000000.000000 && feature.properties['b_PT_Papa'] <= 10000000.000000 ) {
+                return {
+                pane: 'pane_PTPapa_6',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(251,112,80,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_PT_Papa'] >= 10000000.000000 && feature.properties['b_PT_Papa'] <= 40000000.000000 ) {
+                return {
+                pane: 'pane_PTPapa_6',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(211,32,32,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_PT_Papa'] >= 40000000.000000 && feature.properties['b_PT_Papa'] <= 60000000.000000 ) {
+                return {
+                pane: 'pane_PTPapa_6',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(103,0,13,1.0)',
+                interactive: true,
+            }
+            }
+        }
+        map.createPane('pane_PTPapa_6');
+        map.getPane('pane_PTPapa_6').style.zIndex = 406;
+        map.getPane('pane_PTPapa_6').style['mix-blend-mode'] = 'normal';
+        var layer_PTPapa_6 = new L.geoJson(json_PTPapa_6, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_PTPapa_6',
+            layerName: 'layer_PTPapa_6',
+            pane: 'pane_PTPapa_6',
+            onEachFeature: pop_PTPapa_6,
+            style: style_PTPapa_6_0,
+        });
+        bounds_group.addLayer(layer_PTPapa_6);
+        map.addLayer(layer_PTPapa_6);
+        function pop_PTNuez_7(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (var i in e.target._eventParents) {
+                        if (typeof e.target._eventParents[i].resetStyle === 'function') {
+                            e.target._eventParents[i].resetStyle(e.target);
+                        }
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Municipio</th>\
+                        <td>' + (feature.properties['NOMGEO'] !== null ? autolinker.link(feature.properties['NOMGEO'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Nuez - ha</th>\
+                        <td>' + (feature.properties['b_S_Nuez'] !== null ? autolinker.link(feature.properties['b_S_Nuez'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Nuez - PT $</th>\
+                        <td>' + (feature.properties['b_PT_Nuez'] !== null ? autolinker.link(feature.properties['b_PT_Nuez'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            var content = removeEmptyRowsFromPopupContent(popupContent, feature);
+			layer.on('popupopen', function(e) {
+				addClassToPopupIfMedia(content, e.popup);
+			});
+			layer.bindPopup(content, { maxHeight: 400 });
+        }
+
+        function style_PTNuez_7_0(feature) {
+            if (feature.properties['b_PT_Nuez'] >= 0.000000 && feature.properties['b_PT_Nuez'] <= 10000.000000 ) {
+                return {
+                pane: 'pane_PTNuez_7',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,245,240,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_PT_Nuez'] >= 10000.000000 && feature.properties['b_PT_Nuez'] <= 100000.000000 ) {
+                return {
+                pane: 'pane_PTNuez_7',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(252,190,165,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_PT_Nuez'] >= 100000.000000 && feature.properties['b_PT_Nuez'] <= 1000000.000000 ) {
+                return {
+                pane: 'pane_PTNuez_7',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(251,112,80,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_PT_Nuez'] >= 1000000.000000 && feature.properties['b_PT_Nuez'] <= 40000000.000000 ) {
+                return {
+                pane: 'pane_PTNuez_7',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(211,32,32,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_PT_Nuez'] >= 40000000.000000 && feature.properties['b_PT_Nuez'] <= 60000000.000000 ) {
+                return {
+                pane: 'pane_PTNuez_7',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(103,0,13,1.0)',
+                interactive: true,
+            }
+            }
+        }
+        map.createPane('pane_PTNuez_7');
+        map.getPane('pane_PTNuez_7').style.zIndex = 407;
+        map.getPane('pane_PTNuez_7').style['mix-blend-mode'] = 'normal';
+        var layer_PTNuez_7 = new L.geoJson(json_PTNuez_7, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_PTNuez_7',
+            layerName: 'layer_PTNuez_7',
+            pane: 'pane_PTNuez_7',
+            onEachFeature: pop_PTNuez_7,
+            style: style_PTNuez_7_0,
+        });
+        bounds_group.addLayer(layer_PTNuez_7);
+        map.addLayer(layer_PTNuez_7);
+        function pop_PTFresa_8(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (var i in e.target._eventParents) {
+                        if (typeof e.target._eventParents[i].resetStyle === 'function') {
+                            e.target._eventParents[i].resetStyle(e.target);
+                        }
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Municipio</th>\
+                        <td>' + (feature.properties['NOMGEO'] !== null ? autolinker.link(feature.properties['NOMGEO'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Fresa - ha</th>\
+                        <td>' + (feature.properties['b_S_Fres'] !== null ? autolinker.link(feature.properties['b_S_Fres'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Fresa - PT $</th>\
+                        <td>' + (feature.properties['b_PT_Fres'] !== null ? autolinker.link(feature.properties['b_PT_Fres'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            var content = removeEmptyRowsFromPopupContent(popupContent, feature);
+			layer.on('popupopen', function(e) {
+				addClassToPopupIfMedia(content, e.popup);
+			});
+			layer.bindPopup(content, { maxHeight: 400 });
+        }
+
+        function style_PTFresa_8_0(feature) {
+            if (feature.properties['b_PT_Fres'] >= 0.000000 && feature.properties['b_PT_Fres'] <= 10000.000000 ) {
+                return {
+                pane: 'pane_PTFresa_8',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,245,240,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_PT_Fres'] >= 10000.000000 && feature.properties['b_PT_Fres'] <= 100000.000000 ) {
+                return {
+                pane: 'pane_PTFresa_8',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(252,190,165,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_PT_Fres'] >= 100000.000000 && feature.properties['b_PT_Fres'] <= 1000000.000000 ) {
+                return {
+                pane: 'pane_PTFresa_8',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(251,112,80,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_PT_Fres'] >= 1000000.000000 && feature.properties['b_PT_Fres'] <= 10000000.000000 ) {
+                return {
+                pane: 'pane_PTFresa_8',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(211,32,32,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_PT_Fres'] >= 10000000.000000 && feature.properties['b_PT_Fres'] <= 19000000.000000 ) {
+                return {
+                pane: 'pane_PTFresa_8',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(103,0,13,1.0)',
+                interactive: true,
+            }
+            }
+        }
+        map.createPane('pane_PTFresa_8');
+        map.getPane('pane_PTFresa_8').style.zIndex = 408;
+        map.getPane('pane_PTFresa_8').style['mix-blend-mode'] = 'normal';
+        var layer_PTFresa_8 = new L.geoJson(json_PTFresa_8, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_PTFresa_8',
+            layerName: 'layer_PTFresa_8',
+            pane: 'pane_PTFresa_8',
+            onEachFeature: pop_PTFresa_8,
+            style: style_PTFresa_8_0,
+        });
+        bounds_group.addLayer(layer_PTFresa_8);
+        map.addLayer(layer_PTFresa_8);
+        function pop_PTFrambuesa_9(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (var i in e.target._eventParents) {
+                        if (typeof e.target._eventParents[i].resetStyle === 'function') {
+                            e.target._eventParents[i].resetStyle(e.target);
+                        }
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Municipio</th>\
+                        <td>' + (feature.properties['NOMGEO'] !== null ? autolinker.link(feature.properties['NOMGEO'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Frambuesa - ha</th>\
+                        <td>' + (feature.properties['b_S_Fram'] !== null ? autolinker.link(feature.properties['b_S_Fram'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Frambuesa - PT $</th>\
+                        <td>' + (feature.properties['b_PT_Fram'] !== null ? autolinker.link(feature.properties['b_PT_Fram'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            var content = removeEmptyRowsFromPopupContent(popupContent, feature);
+			layer.on('popupopen', function(e) {
+				addClassToPopupIfMedia(content, e.popup);
+			});
+			layer.bindPopup(content, { maxHeight: 400 });
+        }
+
+        function style_PTFrambuesa_9_0(feature) {
+            if (feature.properties['b_PT_Fram'] >= 0.000000 && feature.properties['b_PT_Fram'] <= 10000.000000 ) {
+                return {
+                pane: 'pane_PTFrambuesa_9',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,245,240,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_PT_Fram'] >= 10000.000000 && feature.properties['b_PT_Fram'] <= 100000.000000 ) {
+                return {
+                pane: 'pane_PTFrambuesa_9',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(252,190,165,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_PT_Fram'] >= 100000.000000 && feature.properties['b_PT_Fram'] <= 1000000.000000 ) {
+                return {
+                pane: 'pane_PTFrambuesa_9',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(251,112,80,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_PT_Fram'] >= 1000000.000000 && feature.properties['b_PT_Fram'] <= 10000000.000000 ) {
+                return {
+                pane: 'pane_PTFrambuesa_9',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(211,32,32,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_PT_Fram'] >= 10000000.000000 && feature.properties['b_PT_Fram'] <= 16000000.000000 ) {
+                return {
+                pane: 'pane_PTFrambuesa_9',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(103,0,13,1.0)',
+                interactive: true,
+            }
+            }
+        }
+        map.createPane('pane_PTFrambuesa_9');
+        map.getPane('pane_PTFrambuesa_9').style.zIndex = 409;
+        map.getPane('pane_PTFrambuesa_9').style['mix-blend-mode'] = 'normal';
+        var layer_PTFrambuesa_9 = new L.geoJson(json_PTFrambuesa_9, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_PTFrambuesa_9',
+            layerName: 'layer_PTFrambuesa_9',
+            pane: 'pane_PTFrambuesa_9',
+            onEachFeature: pop_PTFrambuesa_9,
+            style: style_PTFrambuesa_9_0,
+        });
+        bounds_group.addLayer(layer_PTFrambuesa_9);
+        map.addLayer(layer_PTFrambuesa_9);
+        function pop_PTCaf_10(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (var i in e.target._eventParents) {
+                        if (typeof e.target._eventParents[i].resetStyle === 'function') {
+                            e.target._eventParents[i].resetStyle(e.target);
+                        }
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Municipio</th>\
+                        <td>' + (feature.properties['NOMGEO'] !== null ? autolinker.link(feature.properties['NOMGEO'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Café - ha</th>\
+                        <td>' + (feature.properties['b_S_Cafe'] !== null ? autolinker.link(feature.properties['b_S_Cafe'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Café - PT $</th>\
+                        <td>' + (feature.properties['b_PT_Cafe'] !== null ? autolinker.link(feature.properties['b_PT_Cafe'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            var content = removeEmptyRowsFromPopupContent(popupContent, feature);
+			layer.on('popupopen', function(e) {
+				addClassToPopupIfMedia(content, e.popup);
+			});
+			layer.bindPopup(content, { maxHeight: 400 });
+        }
+
+        function style_PTCaf_10_0(feature) {
+            if (feature.properties['b_PT_Cafe'] >= 0.000000 && feature.properties['b_PT_Cafe'] <= 100000.000000 ) {
+                return {
+                pane: 'pane_PTCaf_10',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,245,240,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_PT_Cafe'] >= 100000.000000 && feature.properties['b_PT_Cafe'] <= 500000.000000 ) {
+                return {
+                pane: 'pane_PTCaf_10',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(252,190,165,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_PT_Cafe'] >= 500000.000000 && feature.properties['b_PT_Cafe'] <= 1000000.000000 ) {
+                return {
+                pane: 'pane_PTCaf_10',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(251,112,80,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_PT_Cafe'] >= 1000000.000000 && feature.properties['b_PT_Cafe'] <= 7000000.000000 ) {
+                return {
+                pane: 'pane_PTCaf_10',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(211,32,32,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_PT_Cafe'] >= 7000000.000000 && feature.properties['b_PT_Cafe'] <= 8000000.000000 ) {
+                return {
+                pane: 'pane_PTCaf_10',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(103,0,13,1.0)',
+                interactive: true,
+            }
+            }
+        }
+        map.createPane('pane_PTCaf_10');
+        map.getPane('pane_PTCaf_10').style.zIndex = 410;
+        map.getPane('pane_PTCaf_10').style['mix-blend-mode'] = 'normal';
+        var layer_PTCaf_10 = new L.geoJson(json_PTCaf_10, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_PTCaf_10',
+            layerName: 'layer_PTCaf_10',
+            pane: 'pane_PTCaf_10',
+            onEachFeature: pop_PTCaf_10,
+            style: style_PTCaf_10_0,
+        });
+        bounds_group.addLayer(layer_PTCaf_10);
+        map.addLayer(layer_PTCaf_10);
+        function pop_PTArndano_11(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (var i in e.target._eventParents) {
+                        if (typeof e.target._eventParents[i].resetStyle === 'function') {
+                            e.target._eventParents[i].resetStyle(e.target);
+                        }
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Municipio</th>\
+                        <td>' + (feature.properties['NOMGEO'] !== null ? autolinker.link(feature.properties['NOMGEO'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Arándano - ha</th>\
+                        <td>' + (feature.properties['b_S_Aran'] !== null ? autolinker.link(feature.properties['b_S_Aran'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Arándano - PT $</th>\
+                        <td>' + (feature.properties['b_PT_Aran'] !== null ? autolinker.link(feature.properties['b_PT_Aran'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            var content = removeEmptyRowsFromPopupContent(popupContent, feature);
+			layer.on('popupopen', function(e) {
+				addClassToPopupIfMedia(content, e.popup);
+			});
+			layer.bindPopup(content, { maxHeight: 400 });
+        }
+
+        function style_PTArndano_11_0(feature) {
+            if (feature.properties['b_PT_Aran'] >= 0.000000 && feature.properties['b_PT_Aran'] <= 10000.000000 ) {
+                return {
+                pane: 'pane_PTArndano_11',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,245,240,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_PT_Aran'] >= 10000.000000 && feature.properties['b_PT_Aran'] <= 100000.000000 ) {
+                return {
+                pane: 'pane_PTArndano_11',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(252,190,165,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_PT_Aran'] >= 100000.000000 && feature.properties['b_PT_Aran'] <= 500000.000000 ) {
+                return {
+                pane: 'pane_PTArndano_11',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(251,112,80,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_PT_Aran'] >= 500000.000000 && feature.properties['b_PT_Aran'] <= 1000000.000000 ) {
+                return {
+                pane: 'pane_PTArndano_11',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(211,32,32,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_PT_Aran'] >= 1000000.000000 && feature.properties['b_PT_Aran'] <= 10000000.000000 ) {
+                return {
+                pane: 'pane_PTArndano_11',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(103,0,13,1.0)',
+                interactive: true,
+            }
+            }
+        }
+        map.createPane('pane_PTArndano_11');
+        map.getPane('pane_PTArndano_11').style.zIndex = 411;
+        map.getPane('pane_PTArndano_11').style['mix-blend-mode'] = 'normal';
+        var layer_PTArndano_11 = new L.geoJson(json_PTArndano_11, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_PTArndano_11',
+            layerName: 'layer_PTArndano_11',
+            pane: 'pane_PTArndano_11',
+            onEachFeature: pop_PTArndano_11,
+            style: style_PTArndano_11_0,
+        });
+        bounds_group.addLayer(layer_PTArndano_11);
+        map.addLayer(layer_PTArndano_11);
+        function pop_PTAlgondn_12(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (var i in e.target._eventParents) {
+                        if (typeof e.target._eventParents[i].resetStyle === 'function') {
+                            e.target._eventParents[i].resetStyle(e.target);
+                        }
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Municipio</th>\
+                        <td>' + (feature.properties['NOMGEO'] !== null ? autolinker.link(feature.properties['NOMGEO'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Algodón - ha</th>\
+                        <td>' + (feature.properties['b_S_Algo'] !== null ? autolinker.link(feature.properties['b_S_Algo'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Algodón - PT $</th>\
+                        <td>' + (feature.properties['b_PT_Algo'] !== null ? autolinker.link(feature.properties['b_PT_Algo'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            var content = removeEmptyRowsFromPopupContent(popupContent, feature);
+			layer.on('popupopen', function(e) {
+				addClassToPopupIfMedia(content, e.popup);
+			});
+			layer.bindPopup(content, { maxHeight: 400 });
+        }
+
+        function style_PTAlgondn_12_0(feature) {
+            if (feature.properties['b_PT_Algo'] >= 0.000000 && feature.properties['b_PT_Algo'] <= 100000.000000 ) {
+                return {
+                pane: 'pane_PTAlgondn_12',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,245,240,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_PT_Algo'] >= 100000.000000 && feature.properties['b_PT_Algo'] <= 1000000.000000 ) {
+                return {
+                pane: 'pane_PTAlgondn_12',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(252,190,165,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_PT_Algo'] >= 1000000.000000 && feature.properties['b_PT_Algo'] <= 10000000.000000 ) {
+                return {
+                pane: 'pane_PTAlgondn_12',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(251,112,80,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_PT_Algo'] >= 10000000.000000 && feature.properties['b_PT_Algo'] <= 50000000.000000 ) {
+                return {
+                pane: 'pane_PTAlgondn_12',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(211,32,32,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_PT_Algo'] >= 50000000.000000 && feature.properties['b_PT_Algo'] <= 81000000.000000 ) {
+                return {
+                pane: 'pane_PTAlgondn_12',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(103,0,13,1.0)',
+                interactive: true,
+            }
+            }
+        }
+        map.createPane('pane_PTAlgondn_12');
+        map.getPane('pane_PTAlgondn_12').style.zIndex = 412;
+        map.getPane('pane_PTAlgondn_12').style['mix-blend-mode'] = 'normal';
+        var layer_PTAlgondn_12 = new L.geoJson(json_PTAlgondn_12, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_PTAlgondn_12',
+            layerName: 'layer_PTAlgondn_12',
+            pane: 'pane_PTAlgondn_12',
+            onEachFeature: pop_PTAlgondn_12,
+            style: style_PTAlgondn_12_0,
+        });
+        bounds_group.addLayer(layer_PTAlgondn_12);
+        map.addLayer(layer_PTAlgondn_12);
+        function pop_PTAguacate_13(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (var i in e.target._eventParents) {
+                        if (typeof e.target._eventParents[i].resetStyle === 'function') {
+                            e.target._eventParents[i].resetStyle(e.target);
+                        }
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Municipio</th>\
+                        <td>' + (feature.properties['NOMGEO'] !== null ? autolinker.link(feature.properties['NOMGEO'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Aguacate - ha</th>\
+                        <td>' + (feature.properties['b_S_Agua'] !== null ? autolinker.link(feature.properties['b_S_Agua'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Aguacate - PT $</th>\
+                        <td>' + (feature.properties['b_PT_Agua'] !== null ? autolinker.link(feature.properties['b_PT_Agua'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            var content = removeEmptyRowsFromPopupContent(popupContent, feature);
+			layer.on('popupopen', function(e) {
+				addClassToPopupIfMedia(content, e.popup);
+			});
+			layer.bindPopup(content, { maxHeight: 400 });
+        }
+
+        function style_PTAguacate_13_0(feature) {
+            if (feature.properties['b_PT_Agua'] >= 0.000000 && feature.properties['b_PT_Agua'] <= 10000.000000 ) {
+                return {
+                pane: 'pane_PTAguacate_13',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,245,240,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_PT_Agua'] >= 10000.000000 && feature.properties['b_PT_Agua'] <= 100000.000000 ) {
+                return {
+                pane: 'pane_PTAguacate_13',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(252,190,165,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_PT_Agua'] >= 100000.000000 && feature.properties['b_PT_Agua'] <= 1000000.000000 ) {
+                return {
+                pane: 'pane_PTAguacate_13',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(251,112,80,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_PT_Agua'] >= 1000000.000000 && feature.properties['b_PT_Agua'] <= 50000000.000000 ) {
+                return {
+                pane: 'pane_PTAguacate_13',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(211,32,32,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_PT_Agua'] >= 50000000.000000 && feature.properties['b_PT_Agua'] <= 80000000.000000 ) {
+                return {
+                pane: 'pane_PTAguacate_13',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(103,0,13,1.0)',
+                interactive: true,
+            }
+            }
+        }
+        map.createPane('pane_PTAguacate_13');
+        map.getPane('pane_PTAguacate_13').style.zIndex = 413;
+        map.getPane('pane_PTAguacate_13').style['mix-blend-mode'] = 'normal';
+        var layer_PTAguacate_13 = new L.geoJson(json_PTAguacate_13, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_PTAguacate_13',
+            layerName: 'layer_PTAguacate_13',
+            pane: 'pane_PTAguacate_13',
+            onEachFeature: pop_PTAguacate_13,
+            style: style_PTAguacate_13_0,
+        });
+        bounds_group.addLayer(layer_PTAguacate_13);
+        map.addLayer(layer_PTAguacate_13);
+        function pop_PTAgave_14(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (var i in e.target._eventParents) {
+                        if (typeof e.target._eventParents[i].resetStyle === 'function') {
+                            e.target._eventParents[i].resetStyle(e.target);
+                        }
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Municipio</th>\
+                        <td>' + (feature.properties['NOMGEO'] !== null ? autolinker.link(feature.properties['NOMGEO'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Agave - ha</th>\
+                        <td>' + (feature.properties['b_S_Agav'] !== null ? autolinker.link(feature.properties['b_S_Agav'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Agave - PT $</th>\
+                        <td>' + (feature.properties['b_PT_Agav'] !== null ? autolinker.link(feature.properties['b_PT_Agav'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            var content = removeEmptyRowsFromPopupContent(popupContent, feature);
+			layer.on('popupopen', function(e) {
+				addClassToPopupIfMedia(content, e.popup);
+			});
+			layer.bindPopup(content, { maxHeight: 400 });
+        }
+
+        function style_PTAgave_14_0(feature) {
+            if (feature.properties['b_PT_Agav'] >= 0.000000 && feature.properties['b_PT_Agav'] <= 10000.000000 ) {
+                return {
+                pane: 'pane_PTAgave_14',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,245,240,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_PT_Agav'] >= 10000.000000 && feature.properties['b_PT_Agav'] <= 50000.000000 ) {
+                return {
+                pane: 'pane_PTAgave_14',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(252,190,165,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_PT_Agav'] >= 50000.000000 && feature.properties['b_PT_Agav'] <= 100000.000000 ) {
+                return {
+                pane: 'pane_PTAgave_14',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(251,112,80,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_PT_Agav'] >= 100000.000000 && feature.properties['b_PT_Agav'] <= 1000000.000000 ) {
+                return {
+                pane: 'pane_PTAgave_14',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(211,32,32,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['b_PT_Agav'] >= 1000000.000000 && feature.properties['b_PT_Agav'] <= 1800000.000000 ) {
+                return {
+                pane: 'pane_PTAgave_14',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(103,0,13,1.0)',
+                interactive: true,
+            }
+            }
+        }
+        map.createPane('pane_PTAgave_14');
+        map.getPane('pane_PTAgave_14').style.zIndex = 414;
+        map.getPane('pane_PTAgave_14').style['mix-blend-mode'] = 'normal';
+        var layer_PTAgave_14 = new L.geoJson(json_PTAgave_14, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_PTAgave_14',
+            layerName: 'layer_PTAgave_14',
+            pane: 'pane_PTAgave_14',
+            onEachFeature: pop_PTAgave_14,
+            style: style_PTAgave_14_0,
+        });
+        bounds_group.addLayer(layer_PTAgave_14);
+        map.addLayer(layer_PTAgave_14);
+        function pop_Edos_15(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (var i in e.target._eventParents) {
+                        if (typeof e.target._eventParents[i].resetStyle === 'function') {
+                            e.target._eventParents[i].resetStyle(e.target);
+                        }
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">NOM_ENT</th>\
+                        <td>' + (feature.properties['NOM_ENT'] !== null ? autolinker.link(feature.properties['NOM_ENT'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['PERIMETER'] !== null ? autolinker.link(feature.properties['PERIMETER'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['COV_'] !== null ? autolinker.link(feature.properties['COV_'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['COV_ID'] !== null ? autolinker.link(feature.properties['COV_ID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['OID'] !== null ? autolinker.link(feature.properties['OID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            var content = removeEmptyRowsFromPopupContent(popupContent, feature);
+			layer.on('popupopen', function(e) {
+				addClassToPopupIfMedia(content, e.popup);
+			});
+			layer.bindPopup(content, { maxHeight: 400 });
+        }
+
+        function style_Edos_15_0() {
+            return {
+                pane: 'pane_Edos_15',
+                opacity: 1,
+                color: 'rgba(152,152,152,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(243,166,178,0.0)',
+                interactive: false,
+            }
+        }
+        map.createPane('pane_Edos_15');
+        map.getPane('pane_Edos_15').style.zIndex = 415;
+        map.getPane('pane_Edos_15').style['mix-blend-mode'] = 'normal';
+        var layer_Edos_15 = new L.geoJson(json_Edos_15, {
+            attribution: '',
+            interactive: false,
+            dataVar: 'json_Edos_15',
+            layerName: 'layer_Edos_15',
+            pane: 'pane_Edos_15',
+            onEachFeature: pop_Edos_15,
+            style: style_Edos_15_0,
+        });
+        bounds_group.addLayer(layer_Edos_15);
+        map.addLayer(layer_Edos_15);
+        var overlaysTree = [
+            {label: '<img src="legend/Edos_15.png" /> Edos', layer: layer_Edos_15},
+            {label: 'PT Agave<br /><table><tr><td style="text-align: center;"><img src="legend/PTAgave_14_0100000.png" /></td><td>0 - 10000</td></tr><tr><td style="text-align: center;"><img src="legend/PTAgave_14_10000500001.png" /></td><td>10000 - 50000</td></tr><tr><td style="text-align: center;"><img src="legend/PTAgave_14_500001000002.png" /></td><td>50000 - 100000</td></tr><tr><td style="text-align: center;"><img src="legend/PTAgave_14_10000010000003.png" /></td><td>100000 - 1000000</td></tr><tr><td style="text-align: center;"><img src="legend/PTAgave_14_100000018000004.png" /></td><td>1000000 - 1800000</td></tr></table>', layer: layer_PTAgave_14},
+            {label: 'PT Aguacate<br /><table><tr><td style="text-align: center;"><img src="legend/PTAguacate_13_0100000.png" /></td><td>0 - 10000</td></tr><tr><td style="text-align: center;"><img src="legend/PTAguacate_13_100001000001.png" /></td><td>10000 - 100000</td></tr><tr><td style="text-align: center;"><img src="legend/PTAguacate_13_10000010000002.png" /></td><td>100000 - 1000000</td></tr><tr><td style="text-align: center;"><img src="legend/PTAguacate_13_1000000500000003.png" /></td><td>1000000 - 50000000</td></tr><tr><td style="text-align: center;"><img src="legend/PTAguacate_13_50000000800000004.png" /></td><td>50000000 - 80000000</td></tr></table>', layer: layer_PTAguacate_13},
+            {label: 'PT Algondón<br /><table><tr><td style="text-align: center;"><img src="legend/PTAlgondn_12_01000000.png" /></td><td>0 - 100000</td></tr><tr><td style="text-align: center;"><img src="legend/PTAlgondn_12_10000010000001.png" /></td><td>100000 - 1000000</td></tr><tr><td style="text-align: center;"><img src="legend/PTAlgondn_12_1000000100000002.png" /></td><td>1000000 - 10000000</td></tr><tr><td style="text-align: center;"><img src="legend/PTAlgondn_12_10000000500000003.png" /></td><td>10000000 - 50000000</td></tr><tr><td style="text-align: center;"><img src="legend/PTAlgondn_12_50000000810000004.png" /></td><td>50000000 - 81000000</td></tr></table>', layer: layer_PTAlgondn_12},
+            {label: 'PT Arándano<br /><table><tr><td style="text-align: center;"><img src="legend/PTArndano_11_0100000.png" /></td><td>0 - 10000</td></tr><tr><td style="text-align: center;"><img src="legend/PTArndano_11_100001000001.png" /></td><td>10000 - 100000</td></tr><tr><td style="text-align: center;"><img src="legend/PTArndano_11_1000005000002.png" /></td><td>100000 - 500000</td></tr><tr><td style="text-align: center;"><img src="legend/PTArndano_11_50000010000003.png" /></td><td>500000 - 1000000</td></tr><tr><td style="text-align: center;"><img src="legend/PTArndano_11_1000000100000004.png" /></td><td>1000000 - 10000000</td></tr></table>', layer: layer_PTArndano_11},
+            {label: 'PT Café<br /><table><tr><td style="text-align: center;"><img src="legend/PTCaf_10_01000000.png" /></td><td>0 - 100000</td></tr><tr><td style="text-align: center;"><img src="legend/PTCaf_10_1000005000001.png" /></td><td>100000 - 500000</td></tr><tr><td style="text-align: center;"><img src="legend/PTCaf_10_50000010000002.png" /></td><td>500000 - 1000000</td></tr><tr><td style="text-align: center;"><img src="legend/PTCaf_10_100000070000003.png" /></td><td>1000000 - 7000000</td></tr><tr><td style="text-align: center;"><img src="legend/PTCaf_10_700000080000004.png" /></td><td>7000000 - 8000000</td></tr></table>', layer: layer_PTCaf_10},
+            {label: 'PT Frambuesa<br /><table><tr><td style="text-align: center;"><img src="legend/PTFrambuesa_9_0100000.png" /></td><td>0 - 10000</td></tr><tr><td style="text-align: center;"><img src="legend/PTFrambuesa_9_100001000001.png" /></td><td>10000 - 100000</td></tr><tr><td style="text-align: center;"><img src="legend/PTFrambuesa_9_10000010000002.png" /></td><td>100000 - 1000000</td></tr><tr><td style="text-align: center;"><img src="legend/PTFrambuesa_9_1000000100000003.png" /></td><td>1000000 - 10000000</td></tr><tr><td style="text-align: center;"><img src="legend/PTFrambuesa_9_10000000160000004.png" /></td><td>10000000 - 16000000</td></tr></table>', layer: layer_PTFrambuesa_9},
+            {label: 'PT Fresa<br /><table><tr><td style="text-align: center;"><img src="legend/PTFresa_8_0100000.png" /></td><td>0 - 10000</td></tr><tr><td style="text-align: center;"><img src="legend/PTFresa_8_100001000001.png" /></td><td>10000 - 100000</td></tr><tr><td style="text-align: center;"><img src="legend/PTFresa_8_10000010000002.png" /></td><td>100000 - 1000000</td></tr><tr><td style="text-align: center;"><img src="legend/PTFresa_8_1000000100000003.png" /></td><td>1000000 - 10000000</td></tr><tr><td style="text-align: center;"><img src="legend/PTFresa_8_10000000190000004.png" /></td><td>10000000 - 19000000</td></tr></table>', layer: layer_PTFresa_8},
+            {label: 'PT Nuez<br /><table><tr><td style="text-align: center;"><img src="legend/PTNuez_7_0100000.png" /></td><td>0 - 10000</td></tr><tr><td style="text-align: center;"><img src="legend/PTNuez_7_100001000001.png" /></td><td>10000 - 100000</td></tr><tr><td style="text-align: center;"><img src="legend/PTNuez_7_10000010000002.png" /></td><td>100000 - 1000000</td></tr><tr><td style="text-align: center;"><img src="legend/PTNuez_7_1000000400000003.png" /></td><td>1000000 - 40000000</td></tr><tr><td style="text-align: center;"><img src="legend/PTNuez_7_40000000600000004.png" /></td><td>40000000 - 60000000</td></tr></table>', layer: layer_PTNuez_7},
+            {label: 'PT Papa<br /><table><tr><td style="text-align: center;"><img src="legend/PTPapa_6_01000000.png" /></td><td>0 - 100000</td></tr><tr><td style="text-align: center;"><img src="legend/PTPapa_6_10000010000001.png" /></td><td>100000 - 1000000</td></tr><tr><td style="text-align: center;"><img src="legend/PTPapa_6_1000000100000002.png" /></td><td>1000000 - 10000000</td></tr><tr><td style="text-align: center;"><img src="legend/PTPapa_6_10000000400000003.png" /></td><td>10000000 - 40000000</td></tr><tr><td style="text-align: center;"><img src="legend/PTPapa_6_40000000600000004.png" /></td><td>40000000 - 60000000</td></tr></table>', layer: layer_PTPapa_6},
+            {label: 'PT Pepino<br /><table><tr><td style="text-align: center;"><img src="legend/PTPepino_5_0100000.png" /></td><td>0 - 10000</td></tr><tr><td style="text-align: center;"><img src="legend/PTPepino_5_100001000001.png" /></td><td>10000 - 100000</td></tr><tr><td style="text-align: center;"><img src="legend/PTPepino_5_1000005000002.png" /></td><td>100000 - 500000</td></tr><tr><td style="text-align: center;"><img src="legend/PTPepino_5_50000010000003.png" /></td><td>500000 - 1000000</td></tr><tr><td style="text-align: center;"><img src="legend/PTPepino_5_100000050000004.png" /></td><td>1000000 - 5000000</td></tr></table>', layer: layer_PTPepino_5},
+            {label: 'PT Pimiento<br /><table><tr><td style="text-align: center;"><img src="legend/PTPimiento_4_0100000.png" /></td><td>0 - 10000</td></tr><tr><td style="text-align: center;"><img src="legend/PTPimiento_4_100001000001.png" /></td><td>10000 - 100000</td></tr><tr><td style="text-align: center;"><img src="legend/PTPimiento_4_1000005000002.png" /></td><td>100000 - 500000</td></tr><tr><td style="text-align: center;"><img src="legend/PTPimiento_4_50000010000003.png" /></td><td>500000 - 1000000</td></tr><tr><td style="text-align: center;"><img src="legend/PTPimiento_4_100000050000004.png" /></td><td>1000000 - 5000000</td></tr></table>', layer: layer_PTPimiento_4},
+            {label: 'PT Tomate rojo<br /><table><tr><td style="text-align: center;"><img src="legend/PTTomaterojo_3_01000000.png" /></td><td>0 - 100000</td></tr><tr><td style="text-align: center;"><img src="legend/PTTomaterojo_3_1000005000001.png" /></td><td>100000 - 500000</td></tr><tr><td style="text-align: center;"><img src="legend/PTTomaterojo_3_50000010000002.png" /></td><td>500000 - 1000000</td></tr><tr><td style="text-align: center;"><img src="legend/PTTomaterojo_3_100000050000003.png" /></td><td>1000000 - 5000000</td></tr><tr><td style="text-align: center;"><img src="legend/PTTomaterojo_3_500000090000004.png" /></td><td>5000000 - 9000000</td></tr></table>', layer: layer_PTTomaterojo_3},
+            {label: 'PT Uva<br /><table><tr><td style="text-align: center;"><img src="legend/PTUva_2_0100000.png" /></td><td>0 - 10000</td></tr><tr><td style="text-align: center;"><img src="legend/PTUva_2_100001000001.png" /></td><td>10000 - 100000</td></tr><tr><td style="text-align: center;"><img src="legend/PTUva_2_10000010000002.png" /></td><td>100000 - 1000000</td></tr><tr><td style="text-align: center;"><img src="legend/PTUva_2_1000000100000003.png" /></td><td>1000000 - 10000000</td></tr><tr><td style="text-align: center;"><img src="legend/PTUva_2_10000000510000004.png" /></td><td>10000000 - 51000000</td></tr></table>', layer: layer_PTUva_2},
+            {label: 'PT Zarzamora<br /><table><tr><td style="text-align: center;"><img src="legend/PTZarzamora_1_0100000.png" /></td><td>0 - 10000</td></tr><tr><td style="text-align: center;"><img src="legend/PTZarzamora_1_100001000001.png" /></td><td>10000 - 100000</td></tr><tr><td style="text-align: center;"><img src="legend/PTZarzamora_1_10000010000002.png" /></td><td>100000 - 1000000</td></tr><tr><td style="text-align: center;"><img src="legend/PTZarzamora_1_1000000100000003.png" /></td><td>1000000 - 10000000</td></tr><tr><td style="text-align: center;"><img src="legend/PTZarzamora_1_10000000290000004.png" /></td><td>10000000 - 29000000</td></tr></table>', layer: layer_PTZarzamora_1},
+            {label: "google earth", layer: layer_googleearth_0},]
+        var lay = L.control.layers.tree(null, overlaysTree,{
+            //namedToggle: true,
+            //selectorBack: false,
+            //closedSymbol: '&#8862; &#x1f5c0;',
+            //openedSymbol: '&#8863; &#x1f5c1;',
+            //collapseAll: 'Collapse all',
+            //expandAll: 'Expand all',
+            collapsed: false, 
+        });
+        lay.addTo(map);
+		document.addEventListener("DOMContentLoaded", function() {
+            // set new Layers List height which considers toggle icon
+            function newLayersListHeight() {
+                var layerScrollbarElement = document.querySelector('.leaflet-control-layers-scrollbar');
+                if (layerScrollbarElement) {
+                    var layersListElement = document.querySelector('.leaflet-control-layers-list');
+                    var originalHeight = layersListElement.style.height 
+                        || window.getComputedStyle(layersListElement).height;
+                    var newHeight = parseFloat(originalHeight) - 50;
+                    layersListElement.style.height = newHeight + 'px';
+                }
+            }
+            var isLayersListExpanded = true;
+            var controlLayersElement = document.querySelector('.leaflet-control-layers');
+            var toggleLayerControl = document.querySelector('.leaflet-control-layers-toggle');
+            // toggle Collapsed/Expanded and apply new Layers List height
+            toggleLayerControl.addEventListener('click', function() {
+                if (isLayersListExpanded) {
+                    controlLayersElement.classList.remove('leaflet-control-layers-expanded');
+                } else {
+                    controlLayersElement.classList.add('leaflet-control-layers-expanded');
+                }
+                isLayersListExpanded = !isLayersListExpanded;
+                newLayersListHeight()
+            });	
+			// apply new Layers List height if toggle layerstree
+			if (controlLayersElement) {
+				controlLayersElement.addEventListener('click', function(event) {
+					var toggleLayerHeaderPointer = event.target.closest('.leaflet-layerstree-header-pointer span');
+					if (toggleLayerHeaderPointer) {
+						newLayersListHeight();
+					}
+				});
+			}
+            // Collapsed/Expanded at Start to apply new height
+            setTimeout(function() {
+                toggleLayerControl.click();
+            }, 10);
+            setTimeout(function() {
+                toggleLayerControl.click();
+            }, 10);
+            // Collapsed touch/small screen
+            var isSmallScreen = window.innerWidth < 650;
+            if (isSmallScreen) {
+                setTimeout(function() {
+                    controlLayersElement.classList.remove('leaflet-control-layers-expanded');
+                    isLayersListExpanded = !isLayersListExpanded;
+                }, 500);
+            }  
+        });       
+        setBounds();
+        </script>
+    </body>
+</html>
